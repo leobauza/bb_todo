@@ -4,14 +4,42 @@ require 'Slim/Slim.php';
 
 $app = new Slim();
 
+
+$app->get('/category', 'getCats');
+$app->get('/category/:id', 'getRels');
+
+
 $app->get('/todos', 'getTodos');
-$app->get('/todos/:id',	'getTodo');
+$app->get('/todos/:id','getTodo');
 // $app->get('/wines/search/:query', 'findByName');
 $app->post('/todos', 'addTodo');
 $app->put('/todos/:id', 'updateTodo');
-$app->delete('/todos/:id',	'deleteTodo');
+$app->delete('/todos/:id','deleteTodo');
 
 $app->run();
+
+//get all categories
+function getCats() {
+	$sql = "select * FROM category ORDER BY id";
+	try {
+		$db = getConnection();
+		$stmt = $db->query($sql);  
+		$cats = $stmt->fetchAll(PDO::FETCH_OBJ);
+		$db = null;
+		//echo '{"wine": ' . json_encode($wines) . '}';
+		echo json_encode($cats);
+	} catch(PDOException $e) {
+		echo '{"error":{"text":'. $e->getMessage() .'}}'; 
+	}
+}
+
+//get relationsships
+function getRels($id) {
+
+	//WHAT THE POOP GOES HERE
+
+}
+
 
 //get all the todos
 function getTodos() {
@@ -100,7 +128,7 @@ function deleteTodo($id) {
 }
 
 function getConnection() {
-	$dbhost="127.0.0.1";
+	$dbhost="localhost";
 	$dbuser="root";
 	$dbpass="root";
 	$dbname="todo";

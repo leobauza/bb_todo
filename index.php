@@ -3,12 +3,18 @@
 <!-- GRID -->
 <section class="container">
 	<div class="row-fluid-alt">
-		<section class="page span8">
+		<aside class="span3">
+			<h4>categories go here</h4>
+			
+		</aside>
+		
+		<section class="page span6">
+			<h4>Todos of this Cat</h4>
 			<ul class="todo-list">
 
 			</ul>
 		</section>
-		<aside class="form span4">
+		<aside class="form span3">
 			<form>
 				<input type="text" name="name" value="leo"/>
 				<input type="text" name="lastName" value="bauza"/>

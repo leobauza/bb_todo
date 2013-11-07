@@ -9,8 +9,6 @@ define([
 	'models/todo'
 ], function($, migrate, ui, _, Mustache, Backbone, TodoModel){
 	var TodosCollection = Backbone.Collection.extend({
-		//url: '/api/categories' + this.options.catId,
-		//comparator: 'ordinal'
 		initialize: function(models, options) {
 			console.log("init " + options.id);
 			this.url = '/api/categories/' + options.id;
@@ -20,7 +18,7 @@ define([
 			console.log("mod " + options.id);
 		},
 		model: TodoModel,
-	
+		comparator: 'todo_order'
 	});
 	return TodosCollection;
 });

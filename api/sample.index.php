@@ -5,8 +5,8 @@ require 'Slim/Slim.php';
 $app = new Slim();
 
 
-$app->get('/category', 'getCats');
-$app->get('/category/:id', 'getRels');
+$app->get('/categories', 'getCats');
+$app->get('/categories/:id', 'getRels');
 
 
 $app->get('/todos', 'getTodos');
@@ -35,9 +35,19 @@ function getCats() {
 
 //get relationsships
 function getRels($id) {
-
-	//WHAT THE POOP GOES HERE
-
+	$sql = "select todo_id from myRels where category_id = $id";
+	try {
+		$db = getConnection();
+		$stmt = $db->prepare($sql);
+		$stmt->bindParam("id", $id);
+		$stmt->execute();
+		$todo_ids = $stmt->fetchAll(PDO::FETCH_OBJ);
+		$db = null;
+		//echo print_r($todo_ids);
+		echo json_encode($todo_ids);
+	} catch(PDOException $e) {
+		echo '{"error":{"text":'. $e->getMessage() .'}}'; 
+	}
 }
 
 

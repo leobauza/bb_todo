@@ -9,7 +9,7 @@ define([
 	'models/category'
 ], function($, migrate, ui, _, Mustache, Backbone, CategoryModel){
 	var CategoriesCollection = Backbone.Collection.extend({
-		url: '/api/todos',
+		url: '/api/categories',
 		model: CategoryModel
 	});
 	return CategoriesCollection;

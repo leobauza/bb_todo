@@ -14,12 +14,10 @@ define([
 			this.listenTo(this.collection, 'change', this.render);
 		},
 		render: function(){
-			console.log('render all');
 			this.removeItemViews(); 
 			this.collection.forEach(this.addOne, this);
 		},
 		renderOne: function(id){
-			console.log('render one');
 			this.removeItemViews(); 
 			this.collection.where({'id':id}).forEach(this.addOne, this);
 		},

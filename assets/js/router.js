@@ -22,25 +22,22 @@ define([
 			"category/:id" : "category"
 		},
 		initialize: function(bootstrap){
-			console.log(bootstrap); //bootstraps my todos list and my categories list (todos list has to change to be based on category)
+			//console.log(bootstrap); //bootstraps my todos list and my categories list (todos list has to change to be based on category)
+			var that = this;
+			this.todos = new TodosCollection(bootstrap.todos, {id : 1});
+			this.todosView = new TodosView({
+				collection: this.todos
+			});
+			this.todosView.render();
+			console.log(this.todos)
 
-			//bootstrap and fetch the TODOS
-			// this.todos = new TodosCollection(bootstrap.todos); //bootstrap defined at the top in a script tag
-			// this.todosView = new TodosView({
-			// 	collection:this.todos
-			// });
-			// this.todosView.render();
-			//this.fetchingTodos = this.todos.fetch({silent:true}); //silently fetch after render??
 
 			//bootstrap and fetch the CATEGORIES (on the sidebar)
 			this.categories = new CategoriesCollection(bootstrap.categories);
 			this.categoriesView = new CategoriesView({
 				collection:this.categories
 			});
-			console.log(this.categories.models);
 			this.categoriesView.render();
-			//this.fetchingCats = this.categories.fetch({silent:true}); //silently fetch after render??
-		
 		
 		}
 	});
@@ -50,11 +47,11 @@ define([
 
 	//home
 	todoRouter.on('route:home', function(){
-		var that = this;
-		//after fetching call render (on the collection view)
-		this.fetchingTodos.done(function(){
-			that.todosView.render();
-		});
+		// var that = this;
+		// this.fetchingTodos.done(function(){
+		// 	that.todosView.render();
+		// });
+
 	});
 	
 	//single
@@ -68,20 +65,14 @@ define([
 	
 	//single
 	todoRouter.on('route:category', function(id){
-		console.log('catttt')
-		var todos = new TodosCollection([], {id : id}); //bootstrap defined at the top in a script tag
-		todos.fetch({
+		var that = this;
+		that.todos.mod([], {id:id}); //this triggers a render!
+		that.todos.fetch({
 			success: function(results) {
-				var todosView = new TodosView({
-					collection: todos
-				});
-				todosView.render();
-				//console.log(todos.models);
-				
-				//todosView.render();
+				//console.log(results);
+				that.todosView.render();
 			}
 		});
-		console.log('category: ' + id);
 
 	});
 	
@@ -104,7 +95,6 @@ define([
 	});
 
 	var initialize = function(){
-		console.log('backbone history start!');
 		Backbone.history.start({
 			pushState: true,
 			silent:true //pass silent true to not trigger the home route on load so you can bootstrap data?

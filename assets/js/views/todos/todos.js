@@ -12,7 +12,7 @@ define([
 		el: '.page ul',
 		initialize: function(){
 			
-			this.listenTo(this.collection, 'change', this.render);
+			//this.listenTo(this.collection, 'change', this.render);
 			
 			//make sortable on initialize
 			this.$el.sortable({
@@ -29,18 +29,18 @@ define([
 			});
 		},
 		render: function(){
-			console.log('render all');
+			console.log('render todos collection');
 			this.removeItemViews(); 
 			this.collection.forEach(this.addOne, this);
 		},
 		renderOne: function(id){
-			console.log('render one');
+			console.log('render one todo');
 			this.removeItemViews(); 
 			this.collection.where({'id':id}).forEach(this.addOne, this);
 		},
 		addOne: function(todo){
 			var todoView = new TodoView({model: todo});
-					
+			
 			todoView.listenTo(this, 'clean_up', todoView.remove); //have this todoView listen to clean_up!
 			todoView.render();
 			this.$el.append(todoView.el);

@@ -36,7 +36,6 @@ define([
 			return o;
 		};
 
-		console.log('at the app');
 		Router.initialize();
 
 	}

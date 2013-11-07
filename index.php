@@ -5,7 +5,9 @@
 	<div class="row-fluid-alt">
 		<aside class="span3">
 			<h4>categories go here</h4>
-			
+			<ul class="category-list">
+				
+			</ul>
 		</aside>
 		
 		<section class="page span6">

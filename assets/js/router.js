@@ -39,8 +39,8 @@ define([
 		this.fetching.done(function(){
 			that.todosView.render();
 		});
-
 	});
+	
 	//single
 	todoRouter.on('route:single', function(id){
 		var that = this;

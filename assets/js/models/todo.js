@@ -26,7 +26,6 @@ define([
 			this.save();
 		}
 	});
-
 	//Return the model for the module
 	return TodoModel
 });

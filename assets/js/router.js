@@ -68,13 +68,19 @@ define([
 	
 	//single
 	todoRouter.on('route:category', function(id){
-		
-		this.todos = new TodosCollection(); //bootstrap defined at the top in a script tag
-		this.todosView = new TodosView({
-			collection:this.todos
+		console.log('catttt')
+		var todos = new TodosCollection([], {id : id}); //bootstrap defined at the top in a script tag
+		todos.fetch({
+			success: function(results) {
+				var todosView = new TodosView({
+					collection: todos
+				});
+				todosView.render();
+				//console.log(todos.models);
+				
+				//todosView.render();
+			}
 		});
-		this.todosView.render();
-		this.fetchingTodos = this.todos.fetch({silent:true}); //silently fetch after render??
 		console.log('category: ' + id);
 
 	});
@@ -105,10 +111,11 @@ define([
 		});
 
 		$('body').on('click', 'a[href^="/"]' ,function(e){
+			e.preventDefault();
 			// console.log(e.target.pathname);
 			// console.log($(e.currentTarget).attr('href'))
 			todoRouter.navigate(e.target.pathname, true);
-			e.preventDefault();
+
 		});
 	};
 	

@@ -18,20 +18,20 @@ define([
 		routes: {
 			"" : "home",
 			"todos/:id" : "single",
-			"form/:id" : "form"
+			"form/:id" : "form",
+			"category/:id" : "category"
 		},
 		initialize: function(bootstrap){
 			console.log(bootstrap); //bootstraps my todos list and my categories list (todos list has to change to be based on category)
 
 			//bootstrap and fetch the TODOS
-			this.todos = new TodosCollection(bootstrap.todos); //bootstrap defined at the top in a script tag
-			this.todosView = new TodosView({
-				collection:this.todos
-			});
-			//console.log(this.todos.models);
-			this.todosView.render();
-			this.fetchingTodos = this.todos.fetch({silent:true}); //silently fetch after render??
-		
+			// this.todos = new TodosCollection(bootstrap.todos); //bootstrap defined at the top in a script tag
+			// this.todosView = new TodosView({
+			// 	collection:this.todos
+			// });
+			// this.todosView.render();
+			//this.fetchingTodos = this.todos.fetch({silent:true}); //silently fetch after render??
+
 			//bootstrap and fetch the CATEGORIES (on the sidebar)
 			this.categories = new CategoriesCollection(bootstrap.categories);
 			this.categoriesView = new CategoriesView({
@@ -39,7 +39,7 @@ define([
 			});
 			console.log(this.categories.models);
 			this.categoriesView.render();
-			this.fetchingCats = this.categories.fetch({silent:true}); //silently fetch after render??
+			//this.fetchingCats = this.categories.fetch({silent:true}); //silently fetch after render??
 		
 		
 		}
@@ -64,9 +64,21 @@ define([
 		this.fetchingTodos.done(function(){
 			that.todosView.renderOne(id);
 		});
-
+	});
+	
+	//single
+	todoRouter.on('route:category', function(id){
+		
+		this.todos = new TodosCollection(); //bootstrap defined at the top in a script tag
+		this.todosView = new TodosView({
+			collection:this.todos
+		});
+		this.todosView.render();
+		this.fetchingTodos = this.todos.fetch({silent:true}); //silently fetch after render??
+		console.log('category: ' + id);
 
 	});
+	
 	//form
 	todoRouter.on('route:form', function(id){
 		var that = this;

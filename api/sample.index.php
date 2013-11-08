@@ -23,7 +23,7 @@ function getCats() {
 	$sql = "select * FROM category ORDER BY id";
 	try {
 		$db = getConnection();
-		$stmt = $db->query($sql);  
+		$stmt = $db->query($sql);
 		$cats = $stmt->fetchAll(PDO::FETCH_OBJ);
 		$db = null;
 		//echo '{"wine": ' . json_encode($wines) . '}';
@@ -35,7 +35,7 @@ function getCats() {
 
 //get relationsships
 function getRels($id) {
-	$sql = "select todo_id from myRels where category_id = $id";
+	$sql = "SELECT todo.id, description, status, todo_order FROM todo, relationship WHERE todo.id = relationship.todo_id AND category_id=:id ORDER BY todo_order";
 	try {
 		$db = getConnection();
 		$stmt = $db->prepare($sql);
@@ -85,13 +85,12 @@ function getTodo($id) {
 function addTodo() {
 	$request = Slim::getInstance()->request();
 	$todo = json_decode($request->getBody());
-	$sql = "INSERT INTO todo (description, status, ordinal) VALUES (:description, :status, :ordinal)";
+	$sql = "INSERT INTO todo (description, status) VALUES (:description, :status)";
 	try {
 			$db = getConnection();
 			$stmt = $db->prepare($sql);
 			$stmt->bindParam("description", $todo->description);
 			$stmt->bindParam("status", $todo->status);
-			$stmt->bindParam("ordinal", $todo->ordinal);
 			$stmt->execute();
 			$todo->id = $db->lastInsertId();
 			$db = null;
@@ -106,13 +105,12 @@ function updateTodo($id) {
 	$request = Slim::getInstance()->request();
 	$body = $request->getBody();
 	$todo = json_decode($body);
-	$sql = "UPDATE todo SET description=:description, status=:status, ordinal=:ordinal WHERE id=:id";
+	$sql = "UPDATE todo SET description=:description, status=:status WHERE id=:id";
 	try {
 			$db = getConnection();
 			$stmt = $db->prepare($sql);
 			$stmt->bindParam("description", $todo->description);
 			$stmt->bindParam("status", $todo->status);
-			$stmt->bindParam("ordinal", $todo->ordinal);
 			$stmt->bindParam("id", $id);
 			$stmt->execute();
 			$db = null;

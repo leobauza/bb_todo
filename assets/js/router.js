@@ -47,11 +47,8 @@ define([
 
 	//home
 	todoRouter.on('route:home', function(){
-		// var that = this;
-		// this.fetchingTodos.done(function(){
-		// 	that.todosView.render();
-		// });
-
+		var that = this;
+		that.todosView.render();
 	});
 	
 	//single
@@ -79,18 +76,15 @@ define([
 	//form
 	todoRouter.on('route:form', function(id){
 		var that = this;
-		this.fetchingTodos.done(function(){
-			//considering doing this through todosView so that it can populate the 
-			//main list area on landing...
-			that.todos.where({'id':id}).forEach(function(model){
-				//console.log(model);
-				var formView = new FormView({
-					model:model,
-					stuff:"my stuff"
-				});
-				formView.render();
+		that.todos.where({'id':id}).forEach(function(model){
+			//console.log(model);
+			var formView = new FormView({
+				model:model,
+				stuff:"my stuff"
 			});
+			formView.render();
 		});
+
 
 	});
 

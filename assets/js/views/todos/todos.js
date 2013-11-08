@@ -12,7 +12,7 @@ define([
 		el: '.page ul',
 		initialize: function(){
 			
-			//this.listenTo(this.collection, 'change', this.render);
+			this.listenTo(this.collection, 'change', this.render);
 			
 			//make sortable on initialize
 			this.$el.sortable({

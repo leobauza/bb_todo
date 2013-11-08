@@ -17,6 +17,7 @@ define([
 			this.url = '/api/categories/' + options.id;
 			console.log("mod " + options.id);
 		},
+		
 		model: TodoModel,
 		comparator: 'todo_order'
 	});

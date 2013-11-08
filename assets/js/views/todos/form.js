@@ -64,6 +64,9 @@ define([
 						silent:true, //make it silent so that the list doesn't update causing sort problems...(other solutions????)
 						success: function(){
 							console.log(todoDetails);
+						},
+						error: function(model, response){
+							console.log(response);
 						}
 					});	
 

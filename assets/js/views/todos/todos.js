@@ -6,8 +6,9 @@ define([
 	'underscore',
 	'mustache',
 	'backbone',
-	'views/todos/todo'
-], function($, migrate, ui, _, Mustache, Backbone, TodoView){
+	'views/todos/todo',
+	'views/todos/form'
+], function($, migrate, ui, _, Mustache, Backbone, TodoView, FormView){
 	var TodosView = Backbone.View.extend({
 		el: '.page ul',
 		initialize: function(){
@@ -39,6 +40,16 @@ define([
 			this.removeItemViews(); 
 			this.collection.where({'id':id}).forEach(this.addOne, this);
 		},
+		renderForm: function(id) {
+			this.removeFormViews();
+			this.collection.where({'id':id}).forEach(this.addForm, this);
+		},
+		addForm: function(todo) {
+			var formView = new FormView({model: todo, stuff: "stuff"});
+			//console.log(todo);
+			formView.listenTo(this, 'clean_up_form', formView.remove);
+			formView.render();
+		},
 		addOne: function(todo){
 			var todoView = new TodoView({model: todo});
 			
@@ -48,6 +59,9 @@ define([
 		},
 		removeItemViews: function(){
 			this.trigger('clean_up');
+		},
+		removeFormViews: function() {
+			this.trigger('clean_up_form');
 		},
 		sortUpdate: function(event, model, position){
 			//Reviewing what is going on here:

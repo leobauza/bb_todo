@@ -26,6 +26,7 @@ define([
 		url: function() {
 			return this.category.url() + '/todos'
 		}
+		
 	
 	});
 	return TodosCollection;

@@ -10,10 +10,11 @@ define([
 	'views/todos/todos',
 	'views/todos/form',
 	'collections/todos',
+	'collections/allTodos',
 	'views/categories/category',
 	'views/categories/categories',
 	'collections/categories'
-], function($, migrate, ui, _, Mustache, Backbone, TodoView, TodosView, FormView, TodosCollection, CategoryView, CategoriesView, CategoriesCollection){
+], function($, migrate, ui, _, Mustache, Backbone, TodoView, TodosView, FormView, TodosCollection, AllTodosCollection, CategoryView, CategoriesView, CategoriesCollection){
 	var TodoRouter = Backbone.Router.extend({
 		routes: {
 			"" : "home",
@@ -22,17 +23,19 @@ define([
 			"category/:id" : "category"
 		},
 		initialize: function(bootstrap){
-			//console.log(bootstrap); //bootstraps my todos list and my categories list (todos list has to change to be based on category)
-			// var that = this;
-			// this.todos = new TodosCollection(bootstrap.todos, {id : 1});
-			// this.todosView = new TodosView({
-			// 	collection: this.todos
-			// });
-			// this.todosView.render();
-			// console.log(this.todos)
 
+			//keep this bad boy in the background for editing models
+			this.alltodos = new AllTodosCollection();
+			this.fetchTodos = this.alltodos.fetch({
+				success: function(models){
+					console.log(models)
+				}
+			});
+			//collection view to use for single todo view and single form view
+			this.allTodosView = new TodosView({
+				collection:this.alltodos
+			});
 
-			//bootstrap and fetch the CATEGORIES (on the sidebar)
 			this.categories = new CategoriesCollection(bootstrap.categories);
 			this.categoriesView = new CategoriesView({
 				collection:this.categories
@@ -49,8 +52,8 @@ define([
 
 	//home
 	todoRouter.on('route:home', function(){
-		var that = this;
-		that.todosView.render();
+		// var that = this;
+		// that.todosView.render();
 	});
 	
 	//single
@@ -64,32 +67,29 @@ define([
 	
 	//single
 	todoRouter.on('route:category', function(id){
-
 		var $cat = this.categories.get(id);
 		$cat.getTodos();
-
-		// var that = this;
-		// that.todos.mod([], {id:id}); //this triggers a render!
-		// that.todos.fetch({
-		// 	success: function(results) {
-		// 		//console.log(results);
-		// 		that.todosView.render();
-		// 	}
-		// });
-
 	});
 	
 	//form
 	todoRouter.on('route:form', function(id){
+		// var that = this;
+		// that.alltodos.where({'id':id}).forEach(function(model){
+		// 	var formView = new FormView({
+		// 		model:model,
+		// 		stuff:"my stuff"
+		// 	});
+		// 	formView.render();
+		// });
 		var that = this;
-		that.todos.where({'id':id}).forEach(function(model){
-			//console.log(model);
-			var formView = new FormView({
-				model:model,
-				stuff:"my stuff"
-			});
-			formView.render();
+		this.fetchTodos.done(function(){
+			that.allTodosView.renderForm(id);
 		});
+
+		
+
+
+
 
 
 	});

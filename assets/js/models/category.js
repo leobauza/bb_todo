@@ -7,8 +7,9 @@ define([
 	'mustache',
 	'backbone',
 	'collections/todos',
-	'views/todos/todos'
-], function($, migrate, ui, _, Mustache, Backbone, TodosCollection, TodosView){
+	'views/todos/todos',
+	'views/todos/form'
+], function($, migrate, ui, _, Mustache, Backbone, TodosCollection, TodosView, FormView){
 	var CategoryModel = Backbone.Model.extend({
 		urlRoot: '/api/categories', //remember this is URL ROOT not URL
 		defaults: {
@@ -33,6 +34,8 @@ define([
 				}
 			});
 		}
+
+
 	});
 	//Return the model for the module
 	return CategoryModel

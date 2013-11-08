@@ -14,11 +14,8 @@ define([
 			console.log(this.options.stuff); //see router to see stuff being passed
 		},
 		render: function(){
-
-			//check if the body is empty and fill it up...
-
-			console.log(this.model.attributes);
-		
+			//console.log(this.model.attributes);
+			
 			this.setElement(this.template(this.model.attributes));
 			$('.form').html(this.el);
 		},

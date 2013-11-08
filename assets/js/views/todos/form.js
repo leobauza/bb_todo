@@ -13,9 +13,7 @@ define([
 		initialize: function(){
 			console.log(this.options.stuff); //see router to see stuff being passed
 		},
-		render: function(){
-			//console.log(this.model.attributes);
-			
+		render: function(options){
 			this.setElement(this.template(this.model.attributes));
 			$('.form').html(this.el);
 		},

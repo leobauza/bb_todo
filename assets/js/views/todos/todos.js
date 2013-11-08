@@ -12,10 +12,7 @@ define([
 	var TodosView = Backbone.View.extend({
 		el: '.page ul',
 		initialize: function(){
-			
 			this.listenTo(this.collection, 'change', this.render);
-			
-			
 			//make sortable on initialize
 			this.$el.sortable({
 				placeholder: "sortable-placeholder",
@@ -45,7 +42,7 @@ define([
 			this.collection.where({'id':id}).forEach(this.addForm, this);
 		},
 		addForm: function(todo) {
-			var formView = new FormView({model: todo, stuff: "stuff"});
+			var formView = new FormView({model: todo, stuff: "stuff being passed in at initialize"});
 			//console.log(todo);
 			formView.listenTo(this, 'clean_up_form', formView.remove);
 			formView.render();

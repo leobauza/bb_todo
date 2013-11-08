@@ -17,8 +17,8 @@ define([
 		},
 		initialize: function() {
 			//so I create a collection and a view...and then the getTodos function populates it.
-			this.todos = new TodosCollection([], {category: this});
-			this.todosView = new TodosView({collection: this.todos});
+			this.todos = new TodosCollection([], { category: this });
+			this.todosView = new TodosView({ collection: this.todos });
 		},
 		getTodos: function() {
 			var that = this;

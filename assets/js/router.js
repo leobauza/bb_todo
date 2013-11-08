@@ -24,18 +24,20 @@ define([
 		},
 		initialize: function(bootstrap){
 
-			//keep this bad boy in the background for editing models
-			this.alltodos = new AllTodosCollection();
-			this.fetchTodos = this.alltodos.fetch({
-				success: function(models){
-					console.log(models)
-				}
-			});
-			//collection view to use for single todo view and single form view
-			this.allTodosView = new TodosView({
-				collection:this.alltodos
-			});
+			// //keep this bad boy in the background for editing models
+			// this.alltodos = new AllTodosCollection();
+			// this.fetchTodos = this.alltodos.fetch({
+			// 	success: function(models){
+			// 		console.log(models)
+			// 	}
+			// });
+			// //collection view to use for single todo view and single form view
+			// this.allTodosView = new TodosView({
+			// 	collection:this.alltodos
+			// });
 
+
+			//CATEGORIES
 			this.categories = new CategoriesCollection(bootstrap.categories);
 			this.categoriesView = new CategoriesView({
 				collection:this.categories
@@ -73,24 +75,14 @@ define([
 	
 	//form
 	todoRouter.on('route:form', function(id){
-		// var that = this;
-		// that.alltodos.where({'id':id}).forEach(function(model){
-		// 	var formView = new FormView({
-		// 		model:model,
-		// 		stuff:"my stuff"
-		// 	});
-		// 	formView.render();
-		// });
-		var that = this;
-		this.fetchTodos.done(function(){
-			that.allTodosView.renderForm(id);
-		});
 
 		
 
 
-
-
+		// var that = this;
+		// this.fetchTodos.done(function(){
+		// 	that.allTodosView.renderForm(id);
+		// });
 
 	});
 

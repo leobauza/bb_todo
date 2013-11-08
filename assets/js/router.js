@@ -23,13 +23,13 @@ define([
 		},
 		initialize: function(bootstrap){
 			//console.log(bootstrap); //bootstraps my todos list and my categories list (todos list has to change to be based on category)
-			var that = this;
-			this.todos = new TodosCollection(bootstrap.todos, {id : 1});
-			this.todosView = new TodosView({
-				collection: this.todos
-			});
-			this.todosView.render();
-			console.log(this.todos)
+			// var that = this;
+			// this.todos = new TodosCollection(bootstrap.todos, {id : 1});
+			// this.todosView = new TodosView({
+			// 	collection: this.todos
+			// });
+			// this.todosView.render();
+			// console.log(this.todos)
 
 
 			//bootstrap and fetch the CATEGORIES (on the sidebar)
@@ -38,6 +38,8 @@ define([
 				collection:this.categories
 			});
 			this.categoriesView.render();
+		
+			//this.categories.fetch();
 		
 		}
 	});
@@ -62,14 +64,18 @@ define([
 	
 	//single
 	todoRouter.on('route:category', function(id){
-		var that = this;
-		that.todos.mod([], {id:id}); //this triggers a render!
-		that.todos.fetch({
-			success: function(results) {
-				//console.log(results);
-				that.todosView.render();
-			}
-		});
+
+		var $cat = this.categories.get(id);
+		$cat.getTodos();
+
+		// var that = this;
+		// that.todos.mod([], {id:id}); //this triggers a render!
+		// that.todos.fetch({
+		// 	success: function(results) {
+		// 		//console.log(results);
+		// 		that.todosView.render();
+		// 	}
+		// });
 
 	});
 	

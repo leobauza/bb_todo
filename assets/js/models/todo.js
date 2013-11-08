@@ -13,13 +13,6 @@ define([
 			'description' : 'empty to do..',
 			'status' : 'incomplete'
 		},
-		initialize: function(){
-			this.on('change', this.change);
-		},
-		change: function(){
-			// console.log('CHANGE: model ' + this.attributes.id + ' description:')
-			// console.log('CHANGE: ' + this.attributes.status);
-		},
 		toggleStatus: function(){
 			var $status = this.get('status');
 			($status == 'incomplete') ? this.set({'status':'complete'}) : this.set({'status':'incomplete'});

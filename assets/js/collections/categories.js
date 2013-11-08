@@ -1,4 +1,4 @@
-// Filename: collections/todos
+// Filename: collections/categories
 define([
 	'jquery',
 	'jqueryM',

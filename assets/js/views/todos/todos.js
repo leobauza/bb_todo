@@ -14,6 +14,7 @@ define([
 			
 			this.listenTo(this.collection, 'change', this.render);
 			
+			
 			//make sortable on initialize
 			this.$el.sortable({
 				placeholder: "sortable-placeholder",

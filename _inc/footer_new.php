@@ -11,8 +11,8 @@
 	<script>
 		var bootstrap = {
 			//ADJUST THE URL
-			todos: <?php echo file_get_contents("http://todo.app:8888/api/todos",false,$context) ;?>,
-			categories: <?php echo file_get_contents("http://todo.app:8888/api/categories",false,$context) ;?>
+			todos: <?php echo file_get_contents("http://todo.app/api/todos",false,$context) ;?>,
+			categories: <?php echo file_get_contents("http://todo.app/api/categories",false,$context) ;?>
 		}
 	</script>
 

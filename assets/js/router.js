@@ -1,21 +1,23 @@
 // Filename: router.js
-define([
-	'jquery',
-	'jqueryM',
-	'jqueryUI',
-	'underscore',
-	'mustache',
-	'backbone',
-	'views/todos/todo',
-	'views/todos/todos',
-	'views/todos/form',
-	'collections/todos',
-	'collections/allTodos',
-	'views/categories/category',
-	'views/categories/categories',
-	'collections/categories'
-], function($, migrate, ui, _, Mustache, Backbone, TodoView, TodosView, FormView, TodosCollection, AllTodosCollection, CategoryView, CategoriesView, CategoriesCollection){
-	var TodoRouter = Backbone.Router.extend({
+
+define(function(require){
+	var
+			$ = require('jquery')
+		, migrate = require('jqueryM')
+		, ui = require('jqueryUI')
+		, _ = require('underscore')
+		, Mustache = require('mustache')
+		, Backbone = require('backbone')
+		// , TodoView = require('views/todos/todo')
+		// , TodosView = require('views/todos/todo')
+		// , FormView = require('views/todos/form')
+		// , TodosCollection = require('collections/todos')
+		// , CategoryView = require('views/categories/category')
+		, CategoriesView = require('views/categories/categories')
+		, CategoriesCollection = require('collections/categories')
+	;
+
+	return Backbone.Router.extend({
 		routes: {
 			"" : "home",
 			"todos/:id" : "single",
@@ -23,19 +25,6 @@ define([
 			"category/:id" : "category"
 		},
 		initialize: function(bootstrap){
-
-			// //keep this bad boy in the background for editing models
-			// this.alltodos = new AllTodosCollection();
-			// this.fetchTodos = this.alltodos.fetch({
-			// 	success: function(models){
-			// 		console.log(models)
-			// 	}
-			// });
-			// //collection view to use for single todo view and single form view
-			// this.allTodosView = new TodosView({
-			// 	collection:this.alltodos
-			// });
-
 
 			//CATEGORIES
 			this.categories = new CategoriesCollection(bootstrap.categories);
@@ -46,26 +35,21 @@ define([
 		
 			//this.categories.fetch();
 		
+		}, 
+		category: function(id) {
+			var $cat = this.categories.get(id);
+			$cat.getTodos();
 		}
 	});
 	
-	var todoRouter = new TodoRouter(bootstrap);
+	//var todoRouter = new TodoRouter(bootstrap);
 
 
 	//home
-	todoRouter.on('route:home', function(){
-		// var that = this;
-		// that.todosView.render();
-	});
+	todoRouter.on('route:home', function(){});
 	
 	//single
-	todoRouter.on('route:single', function(id){
-		var that = this;
-		//after fetching call render one (on the collection view) and pass the id
-		this.fetchingTodos.done(function(){
-			that.todosView.renderOne(id);
-		});
-	});
+	todoRouter.on('route:single', function(id){});
 	
 	//single
 	todoRouter.on('route:category', function(id){
@@ -74,34 +58,13 @@ define([
 	});
 	
 	//form
-	todoRouter.on('route:form', function(id){
+	todoRouter.on('route:form', function(id){});
 
-		
-
-
-		// var that = this;
-		// this.fetchTodos.done(function(){
-		// 	that.allTodosView.renderForm(id);
-		// });
-
-	});
-
-	var initialize = function(){
-		Backbone.history.start({
-			pushState: true,
-			silent:true //pass silent true to not trigger the home route on load so you can bootstrap data?
-		});
-
-		$('body').on('click', 'a[href^="/"]' ,function(e){
-			e.preventDefault();
-			// console.log(e.target.pathname);
-			// console.log($(e.currentTarget).attr('href'))
-			todoRouter.navigate(e.target.pathname, true);
-
-		});
-	};
+	// var initialize = function(){
+	// 
+	// };
 	
-	return {
-		initialize: initialize
-	};
+	// return {
+	// 	initialize: initialize
+	// };
 });

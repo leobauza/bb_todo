@@ -1,20 +1,31 @@
-// Filename: views/todos/todo
-define([
-	'jquery',
-	'jqueryM',
-	'jqueryUI',
-	'underscore',
-	'mustache',
-	'backbone',
-	'text!templates/catListItem.html'
-], function($, migrate, ui, _, Mustache, Backbone, catListItemTpl){
+// Filename: views/categories/category
+
+define(function(require){
+	var
+			$ = require('jquery')
+		, migrate = require('jqueryM')
+		, ui = require('jqueryUI')
+		, _ = require('underscore')
+		, Mustache = require('mustache')
+		, Backbone = require('backbone')
+		, catListItemTpl = require('text!templates/catListItem.html')
+		// , TodosCollection = require('collections/todos')
+		// , TodosView = require('views/todos/todos')
+		// , FormView = require('views/todos/form')
+		// , TodoView = require('views/todos/todo')
+		// , CategoryView = require('views/categories/category')
+		// , CategoriesView = require('views/categories/categories')
+		// , CategoriesCollection = require('collections/categories')
+	;
+
+
 
 	var CategoryView = Backbone.View.extend({
 		template: Mustache.compile(catListItemTpl),
-		initialize: function(){
+		initialize: function() {
 			
 		},
-		render: function(){
+		render: function() {
 			this.setElement(this.template(this.model.attributes));
 		}
 	});

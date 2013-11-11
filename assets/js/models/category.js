@@ -8,10 +8,10 @@ define(function(require){
 		, _ = require('underscore')
 		, Mustache = require('mustache')
 		, Backbone = require('backbone')
-		// , TodoView = require('views/todos/todo')
 		, TodosCollection = require('collections/todos')
 		, TodosView = require('views/todos/todos')
-		, FormView = require('views/todos/form')
+		//, FormView = require('views/todos/form')
+		// , TodoView = require('views/todos/todo')
 		// , CategoryView = require('views/categories/category')
 		// , CategoriesView = require('views/categories/categories')
 		// , CategoriesCollection = require('collections/categories')
@@ -25,7 +25,7 @@ define(function(require){
 		initialize: function() {
 			//so I create a collection and a view...and then the getTodos function populates it.
 			this.todos = new TodosCollection([], { category: this });
-			this.todosView = new TodosView({ collection: this.todos });
+			this.todosView = new TodosView({ collection: this.todos, catId: this.id });
 		},
 		getTodos: function() {
 			var that = this;

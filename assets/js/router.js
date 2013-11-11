@@ -22,7 +22,7 @@ define(function(require){
 			"" : "home",
 			"todos/:id" : "single",
 			"form/:id" : "form",
-			"category/:id" : "category"
+			"category/:id(/)" : "category"
 		},
 		initialize: function(bootstrap){
 
@@ -32,39 +32,23 @@ define(function(require){
 				collection:this.categories
 			});
 			this.categoriesView.render();
-		
+
 			//this.categories.fetch();
 		
-		}, 
+		},
 		category: function(id) {
 			var $cat = this.categories.get(id);
 			$cat.getTodos();
+		},
+		home: function() {
+			
+		},
+		single: function(id) {
+			
+		}, 
+		form: function() {
+			
 		}
 	});
 	
-	//var todoRouter = new TodoRouter(bootstrap);
-
-
-	//home
-	todoRouter.on('route:home', function(){});
-	
-	//single
-	todoRouter.on('route:single', function(id){});
-	
-	//single
-	todoRouter.on('route:category', function(id){
-		var $cat = this.categories.get(id);
-		$cat.getTodos();
-	});
-	
-	//form
-	todoRouter.on('route:form', function(id){});
-
-	// var initialize = function(){
-	// 
-	// };
-	
-	// return {
-	// 	initialize: initialize
-	// };
 });

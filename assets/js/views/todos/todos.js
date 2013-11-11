@@ -1,19 +1,28 @@
 // Filename: views/todos/todos
-define([
-	'jquery',
-	'jqueryM',
-	'jqueryUI',
-	'underscore',
-	'mustache',
-	'backbone',
-	'views/todos/todo',
-	'views/todos/form'
-], function($, migrate, ui, _, Mustache, Backbone, TodoView, FormView){
-	var TodosView = Backbone.View.extend({
+define(function(require){
+	var
+			$ = require('jquery')
+		, migrate = require('jqueryM')
+		, ui = require('jqueryUI')
+		, _ = require('underscore')
+		, Mustache = require('mustache')
+		, Backbone = require('backbone')
+		, TodoView = require('views/todos/todo')
+		, FormView = require('views/todos/form')
+		// , TodosCollection = require('collections/todos')
+		// , TodosView = require('views/todos/todos')
+		// , CategoryView = require('views/categories/category')
+		// , CategoriesView = require('views/categories/categories')
+		// , CategoriesCollection = require('collections/categories')
+	;
+
+
+	return Backbone.View.extend({
 		el: '.page ul',
-		initialize: function(){
-			this.listenTo(this.collection, 'change', this.render);
-			//make sortable on initialize
+		initialize: function(options){
+
+			this.catId = options.catId; //category ID for this todos collection
+
 			this.$el.sortable({
 				placeholder: "sortable-placeholder",
 				//forcePlaceholderSize: true,
@@ -32,23 +41,8 @@ define([
 			this.removeItemViews(); 
 			this.collection.forEach(this.addOne, this);
 		},
-		renderOne: function(id){
-			console.log('render one todo');
-			this.removeItemViews(); 
-			this.collection.where({'id':id}).forEach(this.addOne, this);
-		},
-		renderForm: function(id) {
-			this.removeFormViews();
-			this.collection.where({'id':id}).forEach(this.addForm, this);
-		},
-		addForm: function(todo) {
-			var formView = new FormView({model: todo, stuff: "stuff being passed in at initialize"});
-			//console.log(todo);
-			formView.listenTo(this, 'clean_up_form', formView.remove);
-			formView.render();
-		},
 		addOne: function(todo){
-			var todoView = new TodoView({model: todo});
+			var todoView = new TodoView({model: todo, catId: this.catId});
 			
 			todoView.listenTo(this, 'clean_up', todoView.remove); //have this todoView listen to clean_up!
 			todoView.render();
@@ -56,9 +50,6 @@ define([
 		},
 		removeItemViews: function(){
 			this.trigger('clean_up');
-		},
-		removeFormViews: function() {
-			this.trigger('clean_up_form');
 		},
 		sortUpdate: function(event, model, position){
 			//Reviewing what is going on here:
@@ -88,5 +79,6 @@ define([
 			"update-sort" : "sortUpdate"
 		}
 	});
-	return TodosView;
+	
+
 });

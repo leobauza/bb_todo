@@ -1,21 +1,35 @@
 // Filename: views/todos/form
-define([
-	'jquery',
-	'jqueryM',
-	'jqueryUI',
-	'underscore',
-	'mustache',
-	'backbone',
-	'text!templates/form.html'
-], function($, migrate, ui, _, Mustache, Backbone, formTpl){
-	var FormView = Backbone.View.extend({
+
+define(function(require){
+	var
+			$ = require('jquery')
+		, migrate = require('jqueryM')
+		, ui = require('jqueryUI')
+		, _ = require('underscore')
+		, Mustache = require('mustache')
+		, Backbone = require('backbone')
+		,formTpl = require('text!templates/form.html')
+		//, listItemTpl = require('text!templates/listItem.html')
+		// , TodoView = require('views/todos/todo')
+		// , TodosCollection = require('collections/todos')
+		// , TodosView = require('views/todos/todos')
+		// , FormView = require('views/todos/form')
+		// , CategoryView = require('views/categories/category')
+		// , CategoriesView = require('views/categories/categories')
+		// , CategoriesCollection = require('collections/categories')
+	;
+
+
+
+	return Backbone.View.extend({
 		template: Mustache.compile(formTpl),
 		initialize: function(){
-			console.log(this.options.stuff); //see router to see stuff being passed
+
 		},
 		render: function(options){
 			this.setElement(this.template(this.model.attributes));
-			$('.form').html(this.el);
+			//$('.form').html(this.el);
+			return this;
 		},
 		autoSaver: function(e){
 		
@@ -56,7 +70,7 @@ define([
 					//only log the details if the value has changed!
 					var todoDetails = $(e.currentTarget).closest('form').serializeObject();
 					that.model.save(todoDetails,{
-						silent:true, //make it silent so that the list doesn't update causing sort problems...(other solutions????)
+						//silent:true, //make it silent so that the list doesn't update causing sort problems...(other solutions????)
 						success: function(){
 							console.log(todoDetails);
 						},
@@ -89,5 +103,4 @@ define([
 			'focus input[type="text"], textarea':'autoSaver'
 		}
 	});
-	return FormView;
 });

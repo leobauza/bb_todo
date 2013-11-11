@@ -2,7 +2,7 @@
 		a footer
 	</footer>
 
-	<script data-main="../assets/js/main" src="../assets/js/require/require.js"></script>
+	<script data-main="/assets/js/main" src="/assets/js/require/require.js"></script>
 
 
 	<?php

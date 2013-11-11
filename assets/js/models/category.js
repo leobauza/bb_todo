@@ -1,16 +1,23 @@
 // Filename: models/category
-define([
-	'jquery',
-	'jqueryM',
-	'jqueryUI',
-	'underscore',
-	'mustache',
-	'backbone',
-	'collections/todos',
-	'views/todos/todos',
-	'views/todos/form'
-], function($, migrate, ui, _, Mustache, Backbone, TodosCollection, TodosView, FormView){
-	var CategoryModel = Backbone.Model.extend({
+
+define(function(require){
+	var
+			$ = require('jquery')
+		, migrate = require('jqueryM')
+		, ui = require('jqueryUI')
+		, _ = require('underscore')
+		, Mustache = require('mustache')
+		, Backbone = require('backbone')
+		// , TodoView = require('views/todos/todo')
+		, TodosCollection = require('collections/todos')
+		, TodosView = require('views/todos/todos')
+		, FormView = require('views/todos/form')
+		// , CategoryView = require('views/categories/category')
+		// , CategoriesView = require('views/categories/categories')
+		// , CategoriesCollection = require('collections/categories')
+	;
+
+	return Backbone.Model.extend({
 		urlRoot: '/api/categories', //remember this is URL ROOT not URL
 		defaults: {
 			'name' : 'category default'
@@ -37,6 +44,5 @@ define([
 
 
 	});
-	//Return the model for the module
-	return CategoryModel
+
 });

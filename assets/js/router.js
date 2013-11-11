@@ -9,7 +9,7 @@ define(function(require){
 		, Mustache = require('mustache')
 		, Backbone = require('backbone')
 		// , TodoView = require('views/todos/todo')
-		// , TodosView = require('views/todos/todo')
+		// , TodosView = require('views/todos/todos')
 		// , FormView = require('views/todos/form')
 		// , TodosCollection = require('collections/todos')
 		// , CategoryView = require('views/categories/category')

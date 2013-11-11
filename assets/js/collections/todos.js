@@ -18,7 +18,6 @@ define(function(require){
 		// , CategoriesCollection = require('collections/categories')
 	;
 
-
 	return Backbone.Collection.extend({
 		model: TodoModel,
 		comparator: 'todo_order',

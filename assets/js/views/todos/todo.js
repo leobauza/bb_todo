@@ -57,7 +57,7 @@ define(function(require){
 			this.model.toggleStatus();
 		},
 		drop: function(event, index) {
-			//console.log(this.model);
+			console.log("views todo drop ", this.model);
 			this.$el.trigger('update-sort', [this.model, index]);
 		},
 		test: function() {

@@ -64,13 +64,13 @@ define(function(require){
 				var ordinal = index;
 				if (index >= position)
 					ordinal += 1;
-				model.save({'ordinal': ordinal}, {silent:true});
+				model.set({'todo_order': ordinal}, {silent:true});
 			});
 			
-			model.save({'ordinal': position});//, {silent:true}); //render my view here!
+			model.set({'todo_order': position});//, {silent:true}); //render my view here!
 			this.collection.add(model, {at: position});
 			//save and add the model I took out of my collection
-					
+
 			//console.log(this.collection);
 		
 		},

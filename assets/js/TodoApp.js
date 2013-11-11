@@ -13,7 +13,6 @@ define(function(require){
 
 	//var initialize = function(){
 	return function() {
-		console.log("return the function to kick stuff off");
 
 		$.fn.serializeObject = function() {
 			var o = {};

@@ -31,7 +31,7 @@ define(function(require){
 			var that = this;
 			this.todos.fetch({
 				success: function(results) {
-					console.log(that.todos.pluck('description'));
+					//console.log(that.todos.pluck('description'));
 					$('.page ul').empty(); //is this ok because I am recreating the other collection views anyways so they aren't becoming zombies?????
 					
 					that.todosView.render();

@@ -27,8 +27,26 @@
 			margin:0;
 		}
 	}
-} 
+}
 
+.form {
+	textarea, input[type="text"] {
+		width:100%;
+		font-size:1.4em;
+		line-height:1.6em;
+		padding:5px;
+	}
+}
+textarea, input[type="text"] {
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+	&:before, &:after {
+		-moz-box-sizing: border-box;
+		-webkit-box-sizing: border-box;
+		box-sizing: border-box;
+	}
+}
 
 /* 
  * =============================================================

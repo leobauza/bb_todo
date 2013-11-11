@@ -33,6 +33,7 @@ define(function(require){
 			this.formView = new FormView({ model: this.model });
 		},
 		render: function() {
+			var switcher;
 			var catId = {catId: this.catId}; //inserting this cat ID was enterily too complicated....
 			(this.model.attributes.status == "incomplete")? switcher = {checkbox: false} : switcher = {checkbox:true};
 			var tplObj = _.extend(switcher, this.model.attributes, catId); //order matters...attrs first would modify the attrs and we dont want that...
@@ -41,12 +42,14 @@ define(function(require){
 		},
 		statusUpdate: function() {
 			console.log('status update', this.model);
-			this.$el.toggleClass('complete'); //much lower resource intensive than rerendering the whole collection
 			//and if there is content to update...
 			//this is because I am setting the element to the template output so updating it is trickier...
-			var catId = {catId: this.catId}; //inserting this cat ID was enterily too complicated....
+			var switcher;
+			var catId = {catId: this.catId};
 			(this.model.attributes.status == "incomplete")? switcher = {checkbox: false} : switcher = {checkbox:true};
 			var tplObj = _.extend(switcher, this.model.attributes, catId); //order matters...attrs first would modify the attrs and we dont want that...
+
+			this.$el.toggleClass('complete', switcher.checkbox); //much lower resource intensive than rerendering the whole collection
 			this.$el.html($(this.template(tplObj)).html());
 
 		},
@@ -61,7 +64,9 @@ define(function(require){
 			//console.log('label', this.model);
 			//var formView = new FormView({model: this.model, catId: this.catId});
 			
-			$('.form').html(this.formView.render().el);
+			this.formView.render();
+			
+			//$('.form').html(this.formView.render().el);
 			
 		},
 		events: {

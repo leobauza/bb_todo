@@ -37,7 +37,6 @@ define(function(require){
 			});
 		},
 		render: function(){
-			console.log('render todos collection');
 			this.removeItemViews(); 
 			this.collection.forEach(this.addOne, this);
 		},

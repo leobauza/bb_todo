@@ -37,6 +37,8 @@ define(function(require){
 		
 		},
 		category: function(id) {
+			$('.form').empty(); //clear because you are going to a new collection
+			
 			var $cat = this.categories.get(id);
 			$cat.getTodos();
 		},

@@ -24,11 +24,12 @@ define(function(require){
 	return Backbone.View.extend({
 		template: Mustache.compile(formTpl),
 		initialize: function(){
-
+			//this.listenTo(this.model , 'change', this.render); needs to only update if not typing
+			this.listenTo(this.model , 'change:status', this.render);
 		},
 		render: function(options){
 			this.setElement(this.template(this.model.attributes));
-			//$('.form').html(this.el);
+			$('.form').html(this.el);
 			return this;
 		},
 		autoSaver: function(e){

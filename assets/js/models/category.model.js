@@ -36,8 +36,5 @@ define(function(require){
 				}
 			});
 		}
-
-
 	});
-
 });

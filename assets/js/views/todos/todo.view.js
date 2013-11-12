@@ -1,4 +1,4 @@
-// Filename: views/todos/todo
+// Filename: views/todos/todo.view
 
 define(function(require){
 	var
@@ -9,13 +9,7 @@ define(function(require){
 		, Mustache = require('mustache')
 		, Backbone = require('backbone')
 		, listItemTpl = require('text!templates/listItem.html')
-		// , TodoView = require('views/todos/todo')
-		// , TodosCollection = require('collections/todos')
-		// , TodosView = require('views/todos/todos')
-		, FormView = require('views/todos/form')
-		// , CategoryView = require('views/categories/category')
-		// , CategoriesView = require('views/categories/categories')
-		// , CategoriesCollection = require('collections/categories')
+		, FormView = require('views/todos/form.view')
 	;
 
 	return Backbone.View.extend({

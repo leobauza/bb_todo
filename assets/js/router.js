@@ -8,13 +8,8 @@ define(function(require){
 		, _ = require('underscore')
 		, Mustache = require('mustache')
 		, Backbone = require('backbone')
-		// , TodoView = require('views/todos/todo')
-		// , TodosView = require('views/todos/todos')
-		// , FormView = require('views/todos/form')
-		// , TodosCollection = require('collections/todos')
-		// , CategoryView = require('views/categories/category')
-		, CategoriesView = require('views/categories/categories')
-		, CategoriesCollection = require('collections/categories')
+		, CategoriesView = require('views/categories/categories.view')
+		, CategoriesCollection = require('collections/categories.collection')
 	;
 
 	return Backbone.Router.extend({

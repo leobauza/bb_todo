@@ -1,4 +1,4 @@
-// Filename: views/todos/todos
+// Filename: views/todos/todos.view
 define(function(require){
 	var
 			$ = require('jquery')
@@ -7,13 +7,8 @@ define(function(require){
 		, _ = require('underscore')
 		, Mustache = require('mustache')
 		, Backbone = require('backbone')
-		, TodoView = require('views/todos/todo')
-		, FormView = require('views/todos/form')
-		// , TodosCollection = require('collections/todos')
-		// , TodosView = require('views/todos/todos')
-		// , CategoryView = require('views/categories/category')
-		// , CategoriesView = require('views/categories/categories')
-		// , CategoriesCollection = require('collections/categories')
+		, TodoView = require('views/todos/todo.view')
+		, FormView = require('views/todos/form.view')
 	;
 
 

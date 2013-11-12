@@ -1,4 +1,4 @@
-// Filename: collections/todos
+// Filename: views/categories/category.view
 
 define(function(require){
 	var
@@ -8,7 +8,7 @@ define(function(require){
 		, _ = require('underscore')
 		, Mustache = require('mustache')
 		, Backbone = require('backbone')
-		, TodoModel = require('models/todo')
+		, catListItemTpl = require('text!templates/catListItem.html')
 		// , TodosCollection = require('collections/todos')
 		// , TodosView = require('views/todos/todos')
 		// , FormView = require('views/todos/form')
@@ -18,16 +18,17 @@ define(function(require){
 		// , CategoriesCollection = require('collections/categories')
 	;
 
-	return Backbone.Collection.extend({
-		model: TodoModel,
-		comparator: 'todo_order',
-		
-		initialize: function(models, options) {
-			this.category = options.category;
+	return Backbone.View.extend({
+		template: Mustache.compile(catListItemTpl),
+		initialize: function() {
+			
 		},
-		url: function() {
-			return this.category.url() + '/todos'
+		render: function() {
+			this.setElement(this.template(this.model.attributes));
 		}
 	});
-
 });
+	
+	
+	
+	

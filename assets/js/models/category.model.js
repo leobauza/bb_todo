@@ -1,4 +1,4 @@
-// Filename: models/category
+// Filename: models/category.model
 
 define(function(require){
 	var
@@ -8,13 +8,8 @@ define(function(require){
 		, _ = require('underscore')
 		, Mustache = require('mustache')
 		, Backbone = require('backbone')
-		, TodosCollection = require('collections/todos')
-		, TodosView = require('views/todos/todos')
-		//, FormView = require('views/todos/form')
-		// , TodoView = require('views/todos/todo')
-		// , CategoryView = require('views/categories/category')
-		// , CategoriesView = require('views/categories/categories')
-		// , CategoriesCollection = require('collections/categories')
+		, TodosCollection = require('collections/todos.collection')
+		, TodosView = require('views/todos/todos.view')
 	;
 
 	return Backbone.Model.extend({

@@ -18,9 +18,7 @@ define(function(require){
 		// , CategoriesCollection = require('collections/categories')
 	;
 
-
-
-	var CategoryView = Backbone.View.extend({
+	return Backbone.View.extend({
 		template: Mustache.compile(catListItemTpl),
 		initialize: function() {
 			
@@ -29,8 +27,6 @@ define(function(require){
 			this.setElement(this.template(this.model.attributes));
 		}
 	});
-	//Our module now returns our view
-	return CategoryView;
 });
 	
 	

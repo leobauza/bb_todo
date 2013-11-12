@@ -1,14 +1,25 @@
 // Filename: views/todos/todos
-define([
-	'jquery',
-	'jqueryM',
-	'jqueryUI',
-	'underscore',
-	'mustache',
-	'backbone',
-	'views/categories/category'
-], function($, migrate, ui, _, Mustache, Backbone, CategoryView){
-	var CategoriesView = Backbone.View.extend({
+
+define(function(require){
+	var
+			$ = require('jquery')
+		, migrate = require('jqueryM')
+		, ui = require('jqueryUI')
+		, _ = require('underscore')
+		, Mustache = require('mustache')
+		, Backbone = require('backbone')
+		// , catListItemTpl = require('text!templates/catListItem.html')
+		// , TodosCollection = require('collections/todos')
+		// , TodosView = require('views/todos/todos')
+		// , FormView = require('views/todos/form')
+		// , TodoView = require('views/todos/todo')
+		, CategoryView = require('views/categories/category')
+		// , CategoriesView = require('views/categories/categories')
+		// , CategoriesCollection = require('collections/categories')
+	;
+
+
+	return Backbone.View.extend({
 		el: 'ul.category-list',
 		initialize: function(){
 			this.listenTo(this.collection, 'change', this.render);
@@ -32,5 +43,4 @@ define([
 			this.trigger('clean_up');
 		}
 	});
-	return CategoriesView;
 });

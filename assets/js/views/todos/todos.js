@@ -37,8 +37,16 @@ define(function(require){
 			});
 		},
 		render: function(){
+			
+			//sample for each
+			// this.collection.forEach(function(el, index, list){
+			// 	console.log("element: ", el);
+			// 	console.log("index: ", index);
+			// 	console.log("list: ", list);
+			// }, this);
+
 			this.removeItemViews(); 
-			this.collection.forEach(this.addOne, this);
+			this.collection.forEach(this.addOne, this); //or just each which comes from _.each()
 		},
 		addOne: function(todo){
 			var todoView = new TodoView({model: todo, catId: this.catId});

@@ -54,7 +54,7 @@ define(function(require){
 			console.log("views todo drop ", this.model);
 			this.$el.trigger('update-sort', [this.model, index]);
 		},
-		test: function() {
+		edit: function() {
 			//console.log('label', this.model);
 			//var formView = new FormView({model: this.model, catId: this.catId});
 			
@@ -66,7 +66,7 @@ define(function(require){
 		events: {
 			'click input[type=checkbox]' : 'toggleStatus',
 			'drop' : 'drop',
-			'click .form-btn' : 'test'
+			'click .form-btn' : 'edit'
 		}
 	});
 

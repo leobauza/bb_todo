@@ -35,7 +35,6 @@ define(function(require){
 		
 		},
 		statusUpdate: function() {
-			console.log('status update', this.model);
 			//and if there is content to update...
 			//this is because I am setting the element to the template output so updating it is trickier...
 			var switcher;
@@ -51,7 +50,6 @@ define(function(require){
 			this.model.toggleStatus();
 		},
 		drop: function(event, index) {
-			console.log("views todo drop ", this.model);
 			this.$el.trigger('update-sort', [this.model, index]);
 		},
 		edit: function() {

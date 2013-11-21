@@ -30,6 +30,7 @@ define(function(require){
 					$('.page ul').empty(); //is this ok because I am recreating the other collection views anyways so they aren't becoming zombies?????
 					
 					that.todosView.render();
+					
 				},
 				error: function() {
 					console.log('error');

@@ -22,11 +22,9 @@ define(function(require){
 				placeholder: "sortable-placeholder",
 				//forcePlaceholderSize: true,
 				update: function(event, ui) {
-					console.log('sort plugin end');
 					ui.item.trigger('drop', ui.item.index());
 				},
 				start: function(event, ui) {
-					console.log('sort plugin start')
 					ui.placeholder.height(ui.helper.height());
 				}
 			});
@@ -59,19 +57,25 @@ define(function(require){
 			//the model view is listening for "drop" and when that happens it triggers update-sort on its el
 			//and since thats INSIDE this collection view it triggers sortUpdate...
 			//and here we are...
+			
+			
+			console.log(this.collection, position);
+			
 			//console.log(model);
-			this.collection.remove(model);
-			//remove from the collection so that the next calculations make sense...
-			
-			this.collection.each(function (model, index) {
-				var ordinal = index;
-				if (index >= position)
-					ordinal += 1;
-				model.set({'todo_order': ordinal}, {silent:true});
-			});
-			
-			model.set({'todo_order': position});//, {silent:true}); //render my view here!
-			this.collection.add(model, {at: position});
+			// this.collection.remove(model);
+			// //remove from the collection so that the next calculations make sense...
+			// 
+			// 
+			// 
+			// this.collection.each(function (model, index) {
+			// 	var ordinal = index;
+			// 	if (index >= position)
+			// 		ordinal += 1;
+			// 	model.set({'todo_order': ordinal}, {silent:true});
+			// });
+			// 
+			// model.set({'todo_order': position});//, {silent:true}); //render my view here!
+			// this.collection.add(model, {at: position});
 			//save and add the model I took out of my collection
 
 			//console.log(this.collection);

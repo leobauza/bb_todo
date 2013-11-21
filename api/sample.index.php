@@ -6,8 +6,9 @@ $app = new Slim();
 
 
 $app->get('/categories', 'getCats');
-$app->get('/categories/:id', 'getRels');
-
+$app->get('/categories/:id/todos', 'getRels');
+// $app->put('/categories/:category_id/todos/:todo_id', 'updateRels');
+$app->put('/todos/:todo_id/categories/:category_id', 'updateRels');
 
 $app->get('/todos', 'getTodos');
 $app->get('/todos/:id','getTodo');
@@ -49,6 +50,46 @@ function getRels($id) {
 		echo '{"error":{"text":'. $e->getMessage() .'}}'; 
 	}
 }
+//add a todo
+// function addRels() {
+// 	$request = Slim::getInstance()->request();
+// 	$todo = json_decode($request->getBody());
+// 	$sql = "INSERT INTO todo (description, status) VALUES (:description, :status)";
+// 	try {
+// 			$db = getConnection();
+// 			$stmt = $db->prepare($sql);
+// 			$stmt->bindParam("description", $todo->description);
+// 			$stmt->bindParam("status", $todo->status);
+// 			$stmt->execute();
+// 			$todo->id = $db->lastInsertId();
+// 			$db = null;
+// 			echo json_encode($todo);
+// 	} catch(PDOException $e) {
+// 			echo '{"error":{"text":'. $e->getMessage() .'}}';
+// 	}
+// }
+
+//update rels
+function updateRels($todo_id, $category_id) {
+	$request = Slim::getInstance()->request();
+	$body = $request->getBody();
+	$rel = json_decode($body);
+	$sql = "UPDATE relationship SET todo_order=:todo_order WHERE category_id=:category_id AND todo_id=:todo_id";
+	try {
+			$db = getConnection();
+			$stmt = $db->prepare($sql);
+			$stmt->bindParam("todo_order", $rel->todo_order);
+			$stmt->bindParam("category_id", $category_id);
+			$stmt->bindParam("todo_id", $todo_id);
+			$stmt->execute();
+			$db = null;
+			echo json_encode($rel);
+	} catch(PDOException $e) {
+			echo '{"error":{"text":'. $e->getMessage() .'}}';
+	}
+}
+
+
 
 
 //get all the todos

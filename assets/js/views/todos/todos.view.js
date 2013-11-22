@@ -25,19 +25,20 @@ define(function(require){
 		},
 		render: function(){
 			this.removeItemViews();
-			this.delegateEvents(); //attaches events again!
+			this.delegateEvents(); //attaches events again after page switching but NOT after adding a new one!
 
 
-			//create correct button
-			//{ category_id : this.catId, todo_order : this.collection.length }
+			//ADD NEW TODO
 			var todo = new Todo();
 			var addForm = new AddFormView({model: todo, category_id : this.catId, todo_order : this.collection.length });
 			todo.listenTo(this, 'clean_up', todo.remove);
 			addForm.listenTo(this, 'clean_up', addForm.remove); 
 			
+			this.listenTo(addForm, 'saved', this.addNew ); //render again!
+			
 			$('.page').html(this.template({ category_id : this.catId }));
 			$('.add-form').append(addForm.render().el);
-			//end create correct button
+			//END ADD NEW TODO
 
 
 
@@ -90,11 +91,24 @@ define(function(require){
 				model.save({'todo_order': ordinal}); //, {silent:true}); each model updates independently now.
 			});
 			
-			model.save({'todo_order': position});//, {silent:true}); //render my view here!
+			model.save({'todo_order': position});
 			this.collection.add(model, {at: position});
 			//save and add the model I took out of my collection
-
-			//console.log("<===================== END OF THIS =====================>", this.collection);
+		
+		},
+		addNew: function(model) {
+			console.log("log the model on addNew: ", model);
+			var that = this;
+			
+			this.collection.fetch({
+				success: function() {
+					that.render();
+					that.delegateEvents(); //sorting working after adding a new todo!
+				},
+				error: function() {
+					console.log("error fetching at addNew method");
+				}
+			});
 		
 		},
 		events: {

@@ -23,15 +23,20 @@ define(function(require){
 		},
 		save: function(e) {
 			e.preventDefault();
+			var that = this;
 			
 			var todoDetails = this.$el.serializeObject();
-			console.log("this model before: ", this.model.attributes);
-			this.model.save(todoDetails);
-			console.log("this model: ", this.model.attributes);
-			
+			this.model.save(todoDetails, {
+				success: function(model, response, options) {
+					that.trigger('saved', model);
+				},
+				error: function(model, xhr, options) {
+					console.warn("error");
+				}
+			});
 		},
 		events: {
-			submit: "save"
+			submit: "save",
 		}
 	});
 });

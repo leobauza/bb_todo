@@ -66,7 +66,6 @@ define(function(require){
 						//silent:true, //make it silent so that the list doesn't update causing sort problems...(other solutions????)
 						success: function(model, response){
 							console.log("success: ", todoDetails);
-							console.warn("two json responses causes this to return the error method...");
 						},
 						error: function(model, response){
 							console.log("error: ", model);

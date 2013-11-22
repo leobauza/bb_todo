@@ -26,7 +26,7 @@ define(function(require){
 			
 			var todoDetails = this.$el.serializeObject();
 			console.log("this model before: ", this.model.attributes);
-			this.model.set(todoDetails);
+			this.model.save(todoDetails);
 			console.log("this model: ", this.model.attributes);
 			
 		},

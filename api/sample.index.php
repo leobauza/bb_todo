@@ -94,10 +94,29 @@ function addTodo() {
 			$stmt->execute();
 			$todo->id = $db->lastInsertId();
 			$db = null;
+			//echo json_encode($todo);
+	} catch(PDOException $e) {
+			echo '{"error":{"text":'. $e->getMessage() .'}}';
+	}
+
+	$sql2 = "INSERT INTO relationship (category_id, todo_id, todo_order) VALUES (:category_id, :todo_id, :todo_order)";
+	try {
+			$db = getConnection();
+			$stmt = $db->prepare($sql2);
+			$stmt->bindParam("category_id", $todo->category_id);
+			$stmt->bindParam("todo_id", $todo->id);
+			$stmt->bindParam("todo_order", $todo->todo_order);
+			$stmt->execute();
+			$todo->id = $db->lastInsertId();
+			$db = null;
 			echo json_encode($todo);
 	} catch(PDOException $e) {
 			echo '{"error":{"text":'. $e->getMessage() .'}}';
 	}
+
+
+
+
 }
 
 //update a todo

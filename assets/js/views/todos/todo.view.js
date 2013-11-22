@@ -28,10 +28,13 @@ define(function(require){
 		},
 		render: function() {
 			var switcher;
-			var catId = {catId: this.catId}; //inserting this cat ID was enterily too complicated....
+			
+			this.model.set({category_id: this.catId}); //add category ID to model
 			(this.model.attributes.status == "incomplete")? switcher = {checkbox: false} : switcher = {checkbox:true};
-			var tplObj = _.extend(switcher, this.model.attributes, catId); //order matters...attrs first would modify the attrs and we dont want that...
+			var tplObj = _.extend(switcher, this.model.attributes); //order matters...attrs first would modify the attrs and we dont want that...
 			this.setElement(this.template(tplObj));
+			
+			console.log("log attributes: ", this.model.attributes)
 		
 		},
 		statusUpdate: function() {

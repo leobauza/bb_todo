@@ -64,11 +64,13 @@ define(function(require){
 					var todoDetails = $(e.currentTarget).closest('form').serializeObject();
 					that.model.save(todoDetails,{
 						//silent:true, //make it silent so that the list doesn't update causing sort problems...(other solutions????)
-						success: function(){
-							console.log(todoDetails);
+						success: function(model, response){
+							console.log("success: ", todoDetails);
+							console.warn("two json responses causes this to return the error method...");
 						},
 						error: function(model, response){
-							console.log(response);
+							console.log("error: ", model);
+							console.log("error:", response);
 						}
 					});	
 

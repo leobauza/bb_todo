@@ -9,6 +9,9 @@ define(function(require){
 		, Backbone = require('backbone')
 		, TodoView = require('views/todos/todo.view')
 		, FormView = require('views/todos/form.view')
+		, Todo = require('models/todo.model')
+		, AddFormView = require('views/todos/addform.view')
+		, ListTpl = require('text!templates/listExtras.html')
 	;
 
 
@@ -16,39 +19,50 @@ define(function(require){
 		//el: '.page ul',
 		tagName: 'ul',
 		className: 'todo-list',
+		template: Mustache.compile(ListTpl),
 		initialize: function(options){
 			this.catId = options.catId; //category ID for this todos collection
 		},
 		render: function(){
+			this.removeItemViews();
+			this.delegateEvents(); //attaches events again!
+
+
+			//create correct button
+			//{ category_id : this.catId, todo_order : this.collection.length }
+			var todo = new Todo();
+			var addForm = new AddFormView({model: todo, category_id : this.catId, todo_order : this.collection.length });
+			todo.listenTo(this, 'clean_up', todo.remove);
+			addForm.listenTo(this, 'clean_up', addForm.remove); 
 			
-			$('.page').append(this.$el);
+			$('.page').html(this.template({ category_id : this.catId }));
+			$('.add-form').append(addForm.render().el);
+			//end create correct button
+
+
+
+			$('.list-wrap').append(this.$el);
 			
 			this.$el.sortable({
 				placeholder: "sortable-placeholder",
 				//forcePlaceholderSize: true,
 				update: function(event, ui) {
-					console.log('end sort =====================================================================> ');
 					ui.item.trigger('drop', ui.item.index());
 				},
 				start: function(event, ui) {
-					console.log('start sort');
 					ui.placeholder.height(ui.helper.height());
 				}
 			});
-			
 			//sample for each
 			// this.collection.forEach(function(el, index, list){
 			// 	console.log("element: ", el);
 			// 	console.log("index: ", index);
 			// 	console.log("list: ", list);
 			// }, this);
-
-			this.removeItemViews();
 			this.collection.forEach(this.addOne, this); //or just each which comes from _.each()
 		},
 		addOne: function(todo){
 			var todoView = new TodoView({model: todo, catId: this.catId});
-			
 			todoView.listenTo(this, 'clean_up', todoView.remove); //have this todoView listen to clean_up!
 			todoView.render();
 			this.$el.append(todoView.el);
@@ -62,7 +76,6 @@ define(function(require){
 			//the model view is listening for "drop" and when that happens it triggers update-sort on its el
 			//and since thats INSIDE this collection view it triggers sortUpdate...
 			//and here we are...
-			
 			console.log("collection: ", this.collection);
 			console.log("model:", model.attributes);
 			console.log("position: ", position);
@@ -70,25 +83,22 @@ define(function(require){
 			//console.log(model);
 			this.collection.remove(model);
 			// //remove from the collection so that the next calculations make sense...
-			// 
-			// 
-			// 
 			this.collection.each(function (model, index) {
 				var ordinal = index;
 				if (index >= position)
 					ordinal += 1;
-				model.set({'todo_order': ordinal}, {silent:true});
+				model.save({'todo_order': ordinal}); //, {silent:true}); each model updates independently now.
 			});
 			
-			model.set({'todo_order': position});//, {silent:true}); //render my view here!
+			model.save({'todo_order': position});//, {silent:true}); //render my view here!
 			this.collection.add(model, {at: position});
 			//save and add the model I took out of my collection
 
-			console.log("<===================== END OF THIS =====================>", this.collection);
+			//console.log("<===================== END OF THIS =====================>", this.collection);
 		
 		},
 		events: {
-			"update-sort" : "sortUpdate"
+			"update-sort" : "sortUpdate",
 		}
 	});
 	

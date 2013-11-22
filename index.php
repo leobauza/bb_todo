@@ -11,22 +11,10 @@
 		</aside>
 		
 		<section class="page span6">
-			<h4>Todos of this Cat</h4>
-			<ul class="todo-list">
-
-			</ul>
+			<h4>Title</h4>
 		</section>
 		<aside class="form span3">
-			<form>
-				<input type="text" name="name" value="leo"/>
-				<input type="text" name="lastName" value="bauza"/>
-				<select name="car">
-					<option value="volvo">Volvo</option>
-					<option value="saab">Saab</option>
-					<option value="mercedes">Mercedes</option>
-					<option value="audi">Audi</option>
-				</select>
-			</form>
+
 		</aside>
 	</div>
 </section>

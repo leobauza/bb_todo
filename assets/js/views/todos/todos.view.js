@@ -13,23 +13,28 @@ define(function(require){
 
 
 	return Backbone.View.extend({
-		el: '.page ul',
+		//el: '.page ul',
+		tagName: 'ul',
+		className: 'todo-list',
 		initialize: function(options){
-
 			this.catId = options.catId; //category ID for this todos collection
-
+		},
+		render: function(){
+			
+			$('.page').append(this.$el);
+			
 			this.$el.sortable({
 				placeholder: "sortable-placeholder",
 				//forcePlaceholderSize: true,
 				update: function(event, ui) {
+					console.log('end sort =====================================================================> ');
 					ui.item.trigger('drop', ui.item.index());
 				},
 				start: function(event, ui) {
+					console.log('start sort');
 					ui.placeholder.height(ui.helper.height());
 				}
 			});
-		},
-		render: function(){
 			
 			//sample for each
 			// this.collection.forEach(function(el, index, list){
@@ -38,7 +43,7 @@ define(function(require){
 			// 	console.log("list: ", list);
 			// }, this);
 
-			this.removeItemViews(); 
+			this.removeItemViews();
 			this.collection.forEach(this.addOne, this); //or just each which comes from _.each()
 		},
 		addOne: function(todo){
@@ -58,27 +63,28 @@ define(function(require){
 			//and since thats INSIDE this collection view it triggers sortUpdate...
 			//and here we are...
 			
-			
-			console.log(this.collection, position);
+			console.log("collection: ", this.collection);
+			console.log("model:", model.attributes);
+			console.log("position: ", position);
 			
 			//console.log(model);
-			// this.collection.remove(model);
+			this.collection.remove(model);
 			// //remove from the collection so that the next calculations make sense...
 			// 
 			// 
 			// 
-			// this.collection.each(function (model, index) {
-			// 	var ordinal = index;
-			// 	if (index >= position)
-			// 		ordinal += 1;
-			// 	model.set({'todo_order': ordinal}, {silent:true});
-			// });
-			// 
-			// model.set({'todo_order': position});//, {silent:true}); //render my view here!
-			// this.collection.add(model, {at: position});
+			this.collection.each(function (model, index) {
+				var ordinal = index;
+				if (index >= position)
+					ordinal += 1;
+				model.set({'todo_order': ordinal}, {silent:true});
+			});
+			
+			model.set({'todo_order': position});//, {silent:true}); //render my view here!
+			this.collection.add(model, {at: position});
 			//save and add the model I took out of my collection
 
-			//console.log(this.collection);
+			console.log("<===================== END OF THIS =====================>", this.collection);
 		
 		},
 		events: {

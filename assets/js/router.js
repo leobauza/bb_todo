@@ -18,14 +18,12 @@ define(function(require){
 		routes: {
 			"" : "home",
 			"todos/:id" : "single",
-			"form/:id" : "form",
 			"category/:id(/)" : "category"
 		},
 		initialize: function(bootstrap){
-			//Master todos collection
+			//Master todos collection and view
 			this.todos = new Todos();
 			this.todosView = new TodosView({ collection: this.todos });
-
 
 			//CATEGORIES
 			this.categories = new CategoriesCollection(bootstrap.categories);
@@ -33,9 +31,6 @@ define(function(require){
 				collection:this.categories
 			});
 			this.categoriesView.render();
-
-			//this.categories.fetch();
-		
 		},
 		category: function(id) {
 			$('.form').empty(); //clear because you are going to a new collection
@@ -47,12 +42,8 @@ define(function(require){
 			var that = this;
 			this.todos.fetch({
 				success: function(results) {
-					//console.log(that.todos.pluck('description'));
-					//$('.page ul').empty(); //is this ok because I am recreating the other collection views anyways so they aren't becoming zombies?????
 					$('.page ul').remove();
-					
 					that.todosView.renderFront();
-					
 				},
 				error: function() {
 					console.log('error');
@@ -60,9 +51,6 @@ define(function(require){
 			});
 		},
 		single: function(id) {
-			
-		}, 
-		form: function() {
 			
 		}
 	});

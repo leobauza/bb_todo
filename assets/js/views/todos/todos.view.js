@@ -27,7 +27,6 @@ define(function(require){
 			this.removeItemViews();
 			this.delegateEvents(); //attaches events again after page switching but NOT after adding a new one!
 
-
 			//ADD NEW TODO
 			var todo = new Todo({categorized: true}); //categorized so the model uses the url for adding and removing to category not global
 			var addForm = new AddFormView({model: todo, category_id : this.catId, todo_order : this.collection.length });
@@ -36,12 +35,11 @@ define(function(require){
 			
 			this.listenTo(addForm, 'saved', this.addNew ); //render again!
 			
-			$('.page').html(this.template({ category_id : this.catId }));
-			$('.add-form').append(addForm.render().el);
 			//END ADD NEW TODO
 
-
+			$('.page').html(this.template({ category_id : this.catId }));
 			$('.list-wrap').append(this.$el);
+			$('.add-form').append(addForm.render().el);
 			
 			this.$el.sortable({
 				placeholder: "sortable-placeholder",
@@ -53,13 +51,8 @@ define(function(require){
 					ui.placeholder.height(ui.helper.height());
 				}
 			});
-			//sample for each
-			// this.collection.forEach(function(el, index, list){
-			// 	console.log("element: ", el);
-			// 	console.log("index: ", index);
-			// 	console.log("list: ", list);
-			// }, this);
 			this.collection.forEach(this.addOne, this); //or just each which comes from _.each()
+		
 		},
 		renderFront: function() {
 			this.removeItemViews();
@@ -137,5 +130,11 @@ define(function(require){
 		}
 	});
 	
+	//sample for each
+	// this.collection.forEach(function(el, index, list){
+	// 	console.log("element: ", el);
+	// 	console.log("index: ", index);
+	// 	console.log("list: ", list);
+	// }, this);
 
 });

@@ -113,10 +113,6 @@ function addTodo() {
 	} catch(PDOException $e) {
 			echo '{"error":{"text":'. $e->getMessage() .'}}';
 	}
-
-
-
-
 }
 
 //update a todo
@@ -167,6 +163,22 @@ function deleteTodo($id) {
 	} catch(PDOException $e) {
 			echo '{"error":{"text":'. $e->getMessage() .'}}';
 	}
+
+
+	$sql2 = "DELETE FROM relationship WHERE todo_id=:id";
+	try {
+			$db = getConnection();
+			$stmt = $db->prepare($sql2);
+			$stmt->bindParam("id", $id);
+			$stmt->execute();
+			$db = null;
+			echo 'deleted todo with id '. $id; //need to have some response...so empty JSON string
+	} catch(PDOException $e) {
+			echo '{"error":{"text":'. $e->getMessage() .'}}';
+	}
+
+
+
 }
 
 function getConnection() {

@@ -8,7 +8,7 @@ define(function(require){
 		, _ = require('underscore')
 		, Mustache = require('mustache')
 		, Backbone = require('backbone')
-		, TodosCollection = require('collections/todos.collection')
+		, TodosFiltered = require('collections/todosFiltered.collection')
 		, TodosView = require('views/todos/todos.view')
 	;
 
@@ -19,7 +19,7 @@ define(function(require){
 		},
 		initialize: function() {
 			//so I create a collection and a view...and then the getTodos function populates it.
-			this.todos = new TodosCollection([], { category: this });
+			this.todos = new TodosFiltered([], { category: this });
 			this.todosView = new TodosView({ collection: this.todos, catId: this.id });
 		},
 		getTodos: function() {

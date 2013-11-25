@@ -29,7 +29,7 @@ define(function(require){
 
 
 			//ADD NEW TODO
-			var todo = new Todo();
+			var todo = new Todo({categorized: true}); //categorized so the model uses the url for adding and removing to category not global
 			var addForm = new AddFormView({model: todo, category_id : this.catId, todo_order : this.collection.length });
 			todo.listenTo(this, 'clean_up', todo.remove);
 			addForm.listenTo(this, 'clean_up', addForm.remove); 
@@ -61,7 +61,23 @@ define(function(require){
 			// }, this);
 			this.collection.forEach(this.addOne, this); //or just each which comes from _.each()
 		},
+		renderFront: function() {
+			this.removeItemViews();
+			this.undelegateEvents(); //attaches events again after page switching but NOT after adding a new one!
+			
+			$('.page').html(this.template({ category_id : this.catId }));
+			$('.list-wrap').append(this.$el);
+			
+			this.collection.forEach(this.addOneFront, this);
+		},
 		addOne: function(todo){
+			todo.set({categorized: true}); //these are categorized
+			var todoView = new TodoView({model: todo, catId: this.catId});
+			todoView.listenTo(this, 'clean_up', todoView.remove); //have this todoView listen to clean_up!
+			todoView.render();
+			this.$el.append(todoView.el);
+		},
+		addOneFront: function(todo) {
 			var todoView = new TodoView({model: todo, catId: this.catId});
 			todoView.listenTo(this, 'clean_up', todoView.remove); //have this todoView listen to clean_up!
 			todoView.render();

@@ -10,6 +10,8 @@ define(function(require){
 		, Backbone = require('backbone')
 		, CategoriesView = require('views/categories/categories.view')
 		, CategoriesCollection = require('collections/categories.collection')
+		, Todos = require('collections/todos.collection')
+		, TodosView = require('views/todos/todos.view')
 	;
 
 	return Backbone.Router.extend({
@@ -20,6 +22,10 @@ define(function(require){
 			"category/:id(/)" : "category"
 		},
 		initialize: function(bootstrap){
+			//Master todos collection
+			this.todos = new Todos();
+			this.todosView = new TodosView({ collection: this.todos });
+
 
 			//CATEGORIES
 			this.categories = new CategoriesCollection(bootstrap.categories);
@@ -38,7 +44,20 @@ define(function(require){
 			$cat.getTodos();
 		},
 		home: function() {
-			
+			var that = this;
+			this.todos.fetch({
+				success: function(results) {
+					//console.log(that.todos.pluck('description'));
+					//$('.page ul').empty(); //is this ok because I am recreating the other collection views anyways so they aren't becoming zombies?????
+					$('.page ul').remove();
+					
+					that.todosView.renderFront();
+					
+				},
+				error: function() {
+					console.log('error');
+				}
+			});
 		},
 		single: function(id) {
 			

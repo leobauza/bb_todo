@@ -1,4 +1,4 @@
-// Filename: collections/todosFiltered.collection
+// Filename: collections/todos.collection
 
 define(function(require){
 	var
@@ -13,14 +13,12 @@ define(function(require){
 
 	return Backbone.Collection.extend({
 		model: TodoModel,
-		comparator: 'todo_order',
+		//comparator: 'todo_order',
 		
 		initialize: function(models, options) {
-			this.category = options.category;
+			//this.category = options.category;
 		},
-		url: function() {
-			return this.category.url() + '/todos'
-		}
+		url: '/api/todos'
 	});
 
 });

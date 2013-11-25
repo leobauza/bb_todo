@@ -12,7 +12,14 @@ define(function(require){
 
 
 	return Backbone.Model.extend({
-		urlRoot: '/api/todos', //remember this is URL ROOT not URL
+		//urlRoot: '/api/todos', //remember this is URL ROOT not URL
+		urlRoot: function() {
+			if(this.attributes.categorized) {
+				return '/api/cat/todos';
+			} else {
+				return '/api/todos';
+			}
+		},
 		defaults: {
 			'description' : 'empty to do..',
 			'status' : 'incomplete'

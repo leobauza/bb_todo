@@ -16,7 +16,7 @@ define(function(require){
 		//tagName: 'li',
 		template: Mustache.compile(listItemTpl),
 		initialize: function(options){
-			console.log(this.model.urlRoot);
+			console.log(this.model.urlRoot());
 			//listeners
 			this.listenTo(this.model, 'change', this.statusUpdate);
 

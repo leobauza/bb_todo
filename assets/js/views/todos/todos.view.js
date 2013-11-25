@@ -41,7 +41,6 @@ define(function(require){
 			//END ADD NEW TODO
 
 
-
 			$('.list-wrap').append(this.$el);
 			
 			this.$el.sortable({
@@ -77,9 +76,10 @@ define(function(require){
 			//the model view is listening for "drop" and when that happens it triggers update-sort on its el
 			//and since thats INSIDE this collection view it triggers sortUpdate...
 			//and here we are...
-			console.log("collection: ", this.collection);
-			console.log("model:", model.attributes);
-			console.log("position: ", position);
+
+			// console.log("collection: ", this.collection);
+			// console.log("model:", model.attributes);
+			// console.log("position: ", position);
 			
 			//console.log(model);
 			this.collection.remove(model);
@@ -111,8 +111,13 @@ define(function(require){
 			});
 		
 		},
+		test : function(event, model) {
+			console.log("test ", event);
+			console.log("test ", model.collection);
+		},
 		events: {
 			"update-sort" : "sortUpdate",
+			"test" : "test"
 		}
 	});
 	

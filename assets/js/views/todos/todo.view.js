@@ -62,10 +62,27 @@ define(function(require){
 			//$('.form').html(this.formView.render().el);
 			
 		},
+		deleteModel: function(e) {
+			e.preventDefault();
+			var that = this;
+			this.$el.trigger('test', this.model);
+			this.model.destroy({
+				success: function(model, response, options) {
+					console.log(response);
+					that.remove();
+				},
+				error: function(model, xhr, options) {
+					console.log("error");
+				}
+			});
+			
+			
+		},
 		events: {
 			'click input[type=checkbox]' : 'toggleStatus',
 			'drop' : 'drop',
-			'click .form-btn' : 'edit'
+			'click .form-btn' : 'edit',
+			'click .delete-btn' : 'deleteModel'
 		}
 	});
 

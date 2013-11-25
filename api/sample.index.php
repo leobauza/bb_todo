@@ -159,7 +159,7 @@ function deleteTodo($id) {
 			$stmt->bindParam("id", $id);
 			$stmt->execute();
 			$db = null;
-			echo '{}'; //need to have some response...so empty JSON string
+			//echo '{}'; //need to have some response...so empty JSON string
 	} catch(PDOException $e) {
 			echo '{"error":{"text":'. $e->getMessage() .'}}';
 	}

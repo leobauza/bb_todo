@@ -22,14 +22,13 @@ define(function(require){
 		},
 		initialize: function(bootstrap){
 			//Master todos collection and view
-			this.todos = new Todos();
+			this.todos = new Todos(bootstrap.todos);
 			this.todosView = new TodosView({ collection: this.todos });
+			this.todosView.renderFront();
 
 			//CATEGORIES
 			this.categories = new CategoriesCollection(bootstrap.categories);
-			this.categoriesView = new CategoriesView({
-				collection:this.categories
-			});
+			this.categoriesView = new CategoriesView({ collection:this.categories });
 			this.categoriesView.render();
 		},
 		category: function(id) {
@@ -41,6 +40,7 @@ define(function(require){
 		home: function() {
 			var that = this;
 			this.todos.fetch({
+				data : { something : 1 },
 				success: function(results) {
 					$('.page ul').remove();
 					that.todosView.renderFront();

@@ -58,7 +58,7 @@ define(function(require){
 			this.removeItemViews();
 			this.undelegateEvents(); //attaches events again after page switching but NOT after adding a new one!
 			
-			$('.page').html(this.template({ category_id : this.catId }));
+			$('.page').html(this.template({ category_id : "All" }));
 			$('.list-wrap').append(this.$el);
 			
 			this.collection.forEach(this.addOneFront, this);

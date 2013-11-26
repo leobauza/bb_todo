@@ -6,7 +6,7 @@ $app = new Slim();
 
 
 $app->get('/categories', 'getCats');
-$app->get('/categories/:id/todos', 'getRels');
+//$app->get('/categories/:id/todos', 'getRels');
 // $app->put('/categories/:category_id/todos/:todo_id', 'updateRels');
 // $app->put('/todos/:todo_id/categories/:category_id', 'updateRels');
 
@@ -17,7 +17,38 @@ $app->post('/todos', 'addTodo');
 $app->put('/todos/:id', 'updateTodo');
 $app->delete('/todos/:id','deleteTodo');
 
+
+//CATEGORIZED TODOS
+$app->post('/cat/todos', 'addTodo');
+$app->put('/cat/todos/:id', 'updateTodo');
+$app->delete('/cat/todos/:id','deleteRel');
+
+
+$app->get('/undos', 'test');
+
+
 $app->run();
+
+
+
+
+
+function test() {
+	if ( isset($_GET['something']) ) :
+		echo "this is a test: " . $_GET['something'] . "\n";
+	else:
+		echo "this is a test...there is no something..." . "\n";
+	endif;
+}
+
+
+
+
+
+
+
+
+
 
 //get all categories
 function getCats() {
@@ -35,38 +66,55 @@ function getCats() {
 }
 
 //get relationsships
-function getRels($id) {
-	$sql = "SELECT todo.id, description, status, todo_order FROM todo, relationship WHERE todo.id = relationship.todo_id AND category_id=:id ORDER BY todo_order";
-	try {
-		$db = getConnection();
-		$stmt = $db->prepare($sql);
-		$stmt->bindParam("id", $id);
-		$stmt->execute();
-		$todo_ids = $stmt->fetchAll(PDO::FETCH_OBJ);
-		$db = null;
-		//echo print_r($todo_ids);
-		echo json_encode($todo_ids);
-	} catch(PDOException $e) {
-		echo '{"error":{"text":'. $e->getMessage() .'}}'; 
-	}
-}
+// function getRels($id) {
+// 	$sql = "SELECT todo.id, description, status, todo_order FROM todo, relationship WHERE todo.id = relationship.todo_id AND category_id=:id ORDER BY todo_order";
+// 	try {
+// 		$db = getConnection();
+// 		$stmt = $db->prepare($sql);
+// 		$stmt->bindParam("id", $id);
+// 		$stmt->execute();
+// 		$todo_ids = $stmt->fetchAll(PDO::FETCH_OBJ);
+// 		$db = null;
+// 		//echo print_r($todo_ids);
+// 		echo json_encode($todo_ids);
+// 	} catch(PDOException $e) {
+// 		echo '{"error":{"text":'. $e->getMessage() .'}}'; 
+// 	}
+// }
 
-//get all the todos
+//get all the todos and sort by relationship if needed!
 function getTodos() {
-	$sql = "select * FROM todo ORDER BY id";
-	try {
-		$db = getConnection();
-		$stmt = $db->query($sql);  
-		$todos = $stmt->fetchAll(PDO::FETCH_OBJ);
-		$db = null;
-		//echo '{"wine": ' . json_encode($wines) . '}';
-		echo json_encode($todos);
-	} catch(PDOException $e) {
-		echo '{"error":{"text":'. $e->getMessage() .'}}'; 
-	}
+	if ( isset($_GET['category']) ) :
+		$sql = "SELECT todo.id, description, status, todo_order FROM todo, relationship WHERE todo.id = relationship.todo_id AND category_id=:id ORDER BY todo_order";
+		try {
+			$db = getConnection();
+			$stmt = $db->prepare($sql);
+			$stmt->bindParam("id", $_GET['category']);
+			$stmt->execute();
+			$todo_ids = $stmt->fetchAll(PDO::FETCH_OBJ);
+			$db = null;
+			//echo print_r($todo_ids);
+			echo json_encode($todo_ids);
+		} catch(PDOException $e) {
+			echo '{"error":{"text":'. $e->getMessage() .'}}'; 
+		}
+	else:
+		$sql = "select * FROM todo ORDER BY id";
+		try {
+			$db = getConnection();
+			$stmt = $db->query($sql);  
+			$todos = $stmt->fetchAll(PDO::FETCH_OBJ);
+			$db = null;
+			//echo '{"wine": ' . json_encode($wines) . '}';
+			echo json_encode($todos);
+		} catch(PDOException $e) {
+			echo '{"error":{"text":'. $e->getMessage() .'}}'; 
+		}
+	endif;
 }
 //get single todo
 function getTodo($id) {
+	
 	$sql = "SELECT * FROM todo WHERE id=:id";
 	try {
 		$db = getConnection();
@@ -159,27 +207,43 @@ function deleteTodo($id) {
 			$stmt->bindParam("id", $id);
 			$stmt->execute();
 			$db = null;
-			//echo '{}'; //need to have some response...so empty JSON string
+			echo '{}'; //need to have some response...so empty JSON string
 	} catch(PDOException $e) {
 			echo '{"error":{"text":'. $e->getMessage() .'}}';
 	}
 
 
-	$sql2 = "DELETE FROM relationship WHERE todo_id=:id";
+	$sql2 = "DELETE FROM relationship WHERE todo_id=:id"; //deletes all relationships
 	try {
 			$db = getConnection();
 			$stmt = $db->prepare($sql2);
 			$stmt->bindParam("id", $id);
 			$stmt->execute();
 			$db = null;
-			echo 'deleted todo with id '. $id; //need to have some response...so empty JSON string
+			//echo 'deleted todo with id '. $id; //need to have some response...so empty JSON string
 	} catch(PDOException $e) {
 			echo '{"error":{"text":'. $e->getMessage() .'}}';
 	}
-
-
-
 }
+
+//delete relationship ONLY
+function deleteRel($id) {
+	$sql = "DELETE FROM relationship WHERE todo_id=:id"; //needs to check category...
+	try {
+			$db = getConnection();
+			$stmt = $db->prepare($sql);
+			$stmt->bindParam("id", $id);
+			$stmt->execute();
+			$db = null;
+			//echo 'deleted todo with id '. $id; //need to have some response...so empty JSON string
+			echo '{}';
+	} catch(PDOException $e) {
+			echo '{"error":{"text":'. $e->getMessage() .'}}';
+	}
+}
+
+
+
 
 function getConnection() {
 	$dbhost="localhost";

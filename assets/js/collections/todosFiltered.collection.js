@@ -18,9 +18,14 @@ define(function(require){
 		initialize: function(models, options) {
 			this.category = options.category;
 		},
+		// url: function() {
+		// 	return this.category.url() + '/todos'
+		// }
+	
 		url: function() {
-			return this.category.url() + '/todos'
+			return '/api/todos?category=' + this.category.id 
 		}
+	
 	});
 
 });

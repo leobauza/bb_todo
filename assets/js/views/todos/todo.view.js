@@ -8,6 +8,7 @@ define(function(require){
 		, _ = require('underscore')
 		, Mustache = require('mustache')
 		, Backbone = require('backbone')
+		, Todo = require('models/todo.model')
 		, listItemTpl = require('text!templates/listItem.html')
 		, FormView = require('views/todos/form.view')
 	;
@@ -67,6 +68,7 @@ define(function(require){
 			e.preventDefault();
 			var that = this;
 			this.$el.trigger('test', this.model);
+			
 			if(this.model.attributes.category_id !== undefined) {
 				this.model.url = this.model.url() + "?category=" + this.model.attributes.category_id; 
 			}
@@ -83,11 +85,18 @@ define(function(require){
 			
 			
 		},
+		copyTodo: function(e) {
+			e.preventDefault();
+			var todo = new Todo(this.model.attributes);
+			todo.url = todo.url() + "?category=4";
+			todo.save({ category_id : "4" });
+		},
 		events: {
 			'click input[type=checkbox]' : 'toggleStatus',
 			'drop' : 'drop',
 			'click .form-btn' : 'edit',
-			'click .delete-btn' : 'deleteModel'
+			'click .delete-btn' : 'deleteModel',
+			'click .copy' : 'copyTodo'
 		}
 	});
 

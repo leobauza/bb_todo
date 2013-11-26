@@ -152,34 +152,65 @@ function updateTodo($id) {
 	$request = Slim::getInstance()->request();
 	$body = $request->getBody();
 	$todo = json_decode($body);
-	$sql = "UPDATE todo SET description=:description, status=:status WHERE id=:id";
-	try {
-			$db = getConnection();
-			$stmt = $db->prepare($sql);
-			$stmt->bindParam("description", $todo->description);
-			$stmt->bindParam("status", $todo->status);
-			$stmt->bindParam("id", $id);
-			$stmt->execute();
-			$db = null;
-			//echo json_encode($todo);
-	} catch(PDOException $e) {
-			echo '{"error":{"text":'. $e->getMessage() .'}}';
-	}
 	
-	$sql2 = "UPDATE relationship SET todo_order=:todo_order WHERE category_id=:category_id AND todo_id=:todo_id";
-	try {
-			$db = getConnection();
-			$stmt = $db->prepare($sql2);
-			$stmt->bindParam("todo_order", $todo->todo_order);
-			$stmt->bindParam("category_id", $todo->category_id);
-			$stmt->bindParam("todo_id", $id);
-			$stmt->execute();
-			$db = null;
-			//echo "got to rels";
-			echo json_encode($todo);
-	} catch(PDOException $e) {
-			echo '{"error":{"text":'. $e->getMessage() .'}}';
-	}
+	if(!isset($_GET['category'])) :
+		$sql = "UPDATE todo SET description=:description, status=:status WHERE id=:id";
+		try {
+				$db = getConnection();
+				$stmt = $db->prepare($sql);
+				$stmt->bindParam("description", $todo->description);
+				$stmt->bindParam("status", $todo->status);
+				$stmt->bindParam("id", $id);
+				$stmt->execute();
+				$db = null;
+				//echo json_encode($todo);
+		} catch(PDOException $e) {
+				echo '{"error":{"text":'. $e->getMessage() .'}}';
+		}
+
+		$sql2 = "UPDATE relationship SET todo_order=:todo_order WHERE category_id=:category_id AND todo_id=:todo_id";
+		try {
+				$db = getConnection();
+				$stmt = $db->prepare($sql2);
+				$stmt->bindParam("todo_order", $todo->todo_order);
+				$stmt->bindParam("category_id", $todo->category_id);
+				$stmt->bindParam("todo_id", $id);
+				$stmt->execute();
+				$db = null;
+				//echo "got to rels";
+				echo json_encode($todo);
+		} catch(PDOException $e) {
+				echo '{"error":{"text":'. $e->getMessage() .'}}';
+		}
+	else:
+		//$sql = "UPDATE relationship SET todo_order=:todo_order WHERE category_id=:category_id AND todo_id=:todo_id";
+		//$check = "SELECT todo_id FROM relationship WHERE category_id = :category_id";
+
+		$sql = "INSERT INTO relationship (category_id, todo_id, todo_order) VALUES (:category_id, :todo_id, :todo_order)";
+
+		try {
+				$db = getConnection();
+				
+				// $stmt = $db->prepare($check);
+				// $stmt->bindParam("category_id", $todo->category_id);
+				// $stmt->execute();
+
+				
+				
+				
+				$stmt = $db->prepare($sql);
+				$stmt->bindParam("todo_order", $todo->todo_order);
+				$stmt->bindParam("category_id", $todo->category_id);
+				$stmt->bindParam("todo_id", $id);
+				$stmt->execute();
+				$db = null;
+				//echo "got to rels";
+				echo json_encode($todo);
+		} catch(PDOException $e) {
+				echo '{"error":{"text":'. $e->getMessage() .'}}';
+		}
+	endif;
+	
 }
 
 //delete a todo

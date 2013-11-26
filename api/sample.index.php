@@ -19,12 +19,15 @@ $app->delete('/todos/:id','deleteTodo');
 
 
 //CATEGORIZED TODOS
-$app->post('/cat/todos', 'addTodo');
-$app->put('/cat/todos/:id', 'updateTodo');
-$app->delete('/cat/todos/:id','deleteRel');
+// $app->post('/cat/todos', 'addTodo');
+// $app->put('/cat/todos/:id', 'updateTodo');
+// $app->delete('/cat/todos/:id','deleteRel');
 
+$poop = "stufffff";
 
-$app->get('/undos', 'test');
+$app->get('/undos', function() use ($app, $poop) {
+	test($app, $poop);
+});
 
 
 $app->run();
@@ -32,19 +35,16 @@ $app->run();
 
 
 
-
-function test() {
+function test($app, $poop) {
 	if ( isset($_GET['something']) ) :
 		echo "this is a test: " . $_GET['something'] . "\n";
 	else:
 		echo "this is a test...there is no something..." . "\n";
 	endif;
+	
+	echo $poop . "\n";
+	
 }
-
-
-
-
-
 
 
 
@@ -64,23 +64,6 @@ function getCats() {
 		echo '{"error":{"text":'. $e->getMessage() .'}}'; 
 	}
 }
-
-//get relationsships
-// function getRels($id) {
-// 	$sql = "SELECT todo.id, description, status, todo_order FROM todo, relationship WHERE todo.id = relationship.todo_id AND category_id=:id ORDER BY todo_order";
-// 	try {
-// 		$db = getConnection();
-// 		$stmt = $db->prepare($sql);
-// 		$stmt->bindParam("id", $id);
-// 		$stmt->execute();
-// 		$todo_ids = $stmt->fetchAll(PDO::FETCH_OBJ);
-// 		$db = null;
-// 		//echo print_r($todo_ids);
-// 		echo json_encode($todo_ids);
-// 	} catch(PDOException $e) {
-// 		echo '{"error":{"text":'. $e->getMessage() .'}}'; 
-// 	}
-// }
 
 //get all the todos and sort by relationship if needed!
 function getTodos() {
@@ -112,6 +95,7 @@ function getTodos() {
 		}
 	endif;
 }
+
 //get single todo
 function getTodo($id) {
 	
@@ -240,11 +224,32 @@ function deleteTodo($id) {
 		}
 	endif;
 
-
-
-
-
 }
+
+
+
+
+function getConnection() {
+	$dbhost="localhost";
+	$dbuser="root";
+	$dbpass="root";
+	$dbname="todo";
+	$dbh = new PDO("mysql:host=$dbhost;dbname=$dbname", $dbuser, $dbpass);	
+	$dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+	return $dbh;
+}
+
+
+
+
+
+/* 
+
+
+OLD FUNCTIONS THAT WE DONT NEED NO MO 
+
+
+*/
 
 //delete relationship ONLY
 // function deleteRel($id) {
@@ -261,18 +266,26 @@ function deleteTodo($id) {
 // 			echo '{"error":{"text":'. $e->getMessage() .'}}';
 // 	}
 // }
+//get relationsships
+// function getRels($id) {
+// 	$sql = "SELECT todo.id, description, status, todo_order FROM todo, relationship WHERE todo.id = relationship.todo_id AND category_id=:id ORDER BY todo_order";
+// 	try {
+// 		$db = getConnection();
+// 		$stmt = $db->prepare($sql);
+// 		$stmt->bindParam("id", $id);
+// 		$stmt->execute();
+// 		$todo_ids = $stmt->fetchAll(PDO::FETCH_OBJ);
+// 		$db = null;
+// 		//echo print_r($todo_ids);
+// 		echo json_encode($todo_ids);
+// 	} catch(PDOException $e) {
+// 		echo '{"error":{"text":'. $e->getMessage() .'}}'; 
+// 	}
+// }
 
 
 
 
-function getConnection() {
-	$dbhost="localhost";
-	$dbuser="root";
-	$dbpass="root";
-	$dbname="todo";
-	$dbh = new PDO("mysql:host=$dbhost;dbname=$dbname", $dbuser, $dbpass);	
-	$dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-	return $dbh;
-}
+
 
 ?>

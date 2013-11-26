@@ -25,6 +25,7 @@ define(function(require){
 			
 			//views
 			this.formView = new FormView({ model: this.model });
+			
 		},
 		render: function() {
 			var switcher;

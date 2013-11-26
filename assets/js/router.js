@@ -38,6 +38,7 @@ define(function(require){
 			$cat.getTodos();
 		},
 		home: function() {
+			$('.form').empty(); //clear because you are going to a new collection
 			var that = this;
 			this.todos.fetch({
 				//data : { something : 1 },

@@ -200,47 +200,67 @@ function updateTodo($id) {
 
 //delete a todo
 function deleteTodo($id) {
-	$sql = "DELETE FROM todo WHERE id=:id";
-	try {
-			$db = getConnection();
-			$stmt = $db->prepare($sql);
-			$stmt->bindParam("id", $id);
-			$stmt->execute();
-			$db = null;
-			echo '{}'; //need to have some response...so empty JSON string
-	} catch(PDOException $e) {
-			echo '{"error":{"text":'. $e->getMessage() .'}}';
-	}
+	
+	if ( !isset($_GET['category']) ) :
+		$sql = "DELETE FROM todo WHERE id=:id";
+		try {
+				$db = getConnection();
+				$stmt = $db->prepare($sql);
+				$stmt->bindParam("id", $id);
+				$stmt->execute();
+				$db = null;
+				echo '{}'; //need to have some response...so empty JSON string
+		} catch(PDOException $e) {
+				echo '{"error":{"text":'. $e->getMessage() .'}}';
+		}
+		$sql2 = "DELETE FROM relationship WHERE todo_id=:id"; //deletes all relationships
+		try {
+				$db = getConnection();
+				$stmt = $db->prepare($sql2);
+				$stmt->bindParam("id", $id);
+				$stmt->execute();
+				$db = null;
+				//echo 'deleted todo with id '. $id; //need to have some response...so empty JSON string
+		} catch(PDOException $e) {
+				echo '{"error":{"text":'. $e->getMessage() .'}}';
+		}
+	else:
+		$sql = "DELETE FROM relationship WHERE todo_id=:id AND category_id=:category_id"; //deletes all relationships
+		try {
+				$db = getConnection();
+				$stmt = $db->prepare($sql);
+				$stmt->bindParam("id", $id);
+				$stmt->bindParam("category_id", $_GET['category']);
+				$stmt->execute();
+				$db = null;
+				echo '{}';
+				//echo 'deleted todo with id '. $id; //need to have some response...so empty JSON string
+		} catch(PDOException $e) {
+				echo '{"error":{"text":'. $e->getMessage() .'}}';
+		}
+	endif;
 
 
-	$sql2 = "DELETE FROM relationship WHERE todo_id=:id"; //deletes all relationships
-	try {
-			$db = getConnection();
-			$stmt = $db->prepare($sql2);
-			$stmt->bindParam("id", $id);
-			$stmt->execute();
-			$db = null;
-			//echo 'deleted todo with id '. $id; //need to have some response...so empty JSON string
-	} catch(PDOException $e) {
-			echo '{"error":{"text":'. $e->getMessage() .'}}';
-	}
+
+
+
 }
 
 //delete relationship ONLY
-function deleteRel($id) {
-	$sql = "DELETE FROM relationship WHERE todo_id=:id"; //needs to check category...
-	try {
-			$db = getConnection();
-			$stmt = $db->prepare($sql);
-			$stmt->bindParam("id", $id);
-			$stmt->execute();
-			$db = null;
-			//echo 'deleted todo with id '. $id; //need to have some response...so empty JSON string
-			echo '{}';
-	} catch(PDOException $e) {
-			echo '{"error":{"text":'. $e->getMessage() .'}}';
-	}
-}
+// function deleteRel($id) {
+// 	$sql = "DELETE FROM relationship WHERE todo_id=:id"; //needs to check category...
+// 	try {
+// 			$db = getConnection();
+// 			$stmt = $db->prepare($sql);
+// 			$stmt->bindParam("id", $id);
+// 			$stmt->execute();
+// 			$db = null;
+// 			//echo 'deleted todo with id '. $id; //need to have some response...so empty JSON string
+// 			echo '{}';
+// 	} catch(PDOException $e) {
+// 			echo '{"error":{"text":'. $e->getMessage() .'}}';
+// 	}
+// }
 
 
 

@@ -28,7 +28,7 @@ define(function(require){
 			this.delegateEvents(); //attaches events again after page switching but NOT after adding a new one!
 
 			//ADD NEW TODO
-			var todo = new Todo({categorized: true}); //categorized so the model uses the url for adding and removing to category not global
+			var todo = new Todo();
 			var addForm = new AddFormView({model: todo, category_id : this.catId, todo_order : this.collection.length });
 			todo.listenTo(this, 'clean_up', todo.remove);
 			addForm.listenTo(this, 'clean_up', addForm.remove); 
@@ -64,7 +64,6 @@ define(function(require){
 			this.collection.forEach(this.addOneFront, this);
 		},
 		addOne: function(todo){
-			todo.set({categorized: true}); //these are categorized
 			var todoView = new TodoView({model: todo, catId: this.catId});
 			todoView.listenTo(this, 'clean_up', todoView.remove); //have this todoView listen to clean_up!
 			todoView.render();
@@ -106,7 +105,7 @@ define(function(require){
 		
 		},
 		addNew: function(model) {
-			console.log("log the model on addNew: ", model);
+			//console.log("log the model on addNew: ", model);
 			var that = this;
 			
 			this.collection.fetch({

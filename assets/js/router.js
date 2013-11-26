@@ -40,7 +40,7 @@ define(function(require){
 		home: function() {
 			var that = this;
 			this.todos.fetch({
-				data : { something : 1 },
+				//data : { something : 1 },
 				success: function(results) {
 					$('.page ul').remove();
 					that.todosView.renderFront();

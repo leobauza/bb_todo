@@ -16,7 +16,7 @@ define(function(require){
 		//tagName: 'li',
 		template: Mustache.compile(listItemTpl),
 		initialize: function(options){
-			console.log(this.model.urlRoot());
+			console.log(this.model.url());
 			//listeners
 			this.listenTo(this.model, 'change', this.statusUpdate);
 
@@ -66,6 +66,10 @@ define(function(require){
 			e.preventDefault();
 			var that = this;
 			this.$el.trigger('test', this.model);
+			if(this.model.attributes.category_id !== undefined) {
+				this.model.url = this.model.url() + "?category=" + this.model.attributes.category_id; 
+			}
+			
 			this.model.destroy({
 				success: function(model, response, options) {
 					console.log(response);

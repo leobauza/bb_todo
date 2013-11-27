@@ -60,11 +60,20 @@ define(function(require){
 					}
 				});
 			} else {
-				this.$el.find('li').addClass('movable');
+				this.$el.sortable('destroy');
+				this.$el.find('li').draggable({ revert: true, revertDuration: 0 }).addClass('movable');
 			}
 		},
-		makeMovable: function() {
-			this.sortOrMove(false);
+		toggleMovable: function(a) {
+			var $item = $(a.target).closest('li');
+			if($item.hasClass('movable')) {
+				this.$el.find('li .move-btn').html('it is sortable!');
+				this.$el.find('li').draggable('destroy').removeClass('movable');
+				this.sortOrMove(true);
+			} else {
+				this.$el.find('li .move-btn').html('it is movable!');
+				this.sortOrMove(false);
+			}
 		},
 		renderFront: function() {
 			this.removeItemViews();
@@ -133,7 +142,7 @@ define(function(require){
 		},
 		events: {
 			"update-sort" : "sortUpdate",
-			"click .move-btn" : "makeMovable"
+			"click .move-btn" : "toggleMovable"
 		}
 	});
 	

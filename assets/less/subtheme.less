@@ -4,9 +4,20 @@
  * ALL SUBTHEME LESS
  * =============================================================
  */
-.complete {
-	text-decoration:line-through;
-	color:@grey;
+.category-list {
+	.reset-list();
+	li {
+		margin:0 0 5px;
+		a {
+			display:block;
+			font-size:1.6em;
+			padding:20px 10px;
+			background:@off-white;
+			&:hover {
+				text-decoration:none;
+			}
+		}
+	}
 }
 .page {
 	.todo-list {
@@ -19,6 +30,9 @@
 				border:1px dashed @light-grey;
 				background:@off-white;
 			}
+			&.movable {
+				background:@off-white;
+			}
 		}
 		strong, span {
 			font-size:1.4em;
@@ -29,6 +43,10 @@
 	}
 }
 
+.complete {
+	text-decoration:line-through;
+	color:@grey;
+}
 .form, .add-form {
 	textarea, input[type="text"] {
 		width:100%;

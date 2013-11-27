@@ -41,18 +41,30 @@ define(function(require){
 			$('.list-wrap').append(this.$el);
 			$('.add-form').append(addForm.render().el);
 			
-			this.$el.sortable({
-				placeholder: "sortable-placeholder",
-				//forcePlaceholderSize: true,
-				update: function(event, ui) {
-					ui.item.trigger('drop', ui.item.index());
-				},
-				start: function(event, ui) {
-					ui.placeholder.height(ui.helper.height());
-				}
-			});
+			this.sortOrMove(true);
+			
+			
 			this.collection.forEach(this.addOne, this); //or just each which comes from _.each()
 		
+		},
+		sortOrMove: function(sort) {
+			if(sort === true) {
+				this.$el.sortable({
+					placeholder: "sortable-placeholder",
+					//forcePlaceholderSize: true,
+					update: function(event, ui) {
+						ui.item.trigger('drop', ui.item.index());
+					},
+					start: function(event, ui) {
+						ui.placeholder.height(ui.helper.height());
+					}
+				});
+			} else {
+				this.$el.find('li').addClass('movable');
+			}
+		},
+		makeMovable: function() {
+			this.sortOrMove(false);
 		},
 		renderFront: function() {
 			this.removeItemViews();
@@ -119,13 +131,9 @@ define(function(require){
 			});
 		
 		},
-		test : function(event, model) {
-			console.log("test ", event);
-			console.log("test ", model.collection);
-		},
 		events: {
 			"update-sort" : "sortUpdate",
-			"test" : "test"
+			"click .move-btn" : "makeMovable"
 		}
 	});
 	

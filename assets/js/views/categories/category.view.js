@@ -21,10 +21,16 @@ define(function(require){
 	return Backbone.View.extend({
 		template: Mustache.compile(catListItemTpl),
 		initialize: function() {
-			
+
 		},
 		render: function() {
 			this.setElement(this.template(this.model.attributes));
+		},
+		drop: function(event, ui) {
+			$(ui.draggable).trigger('droppedInto', this.model.attributes.id);
+		},
+		events: {
+			'drop' : 'drop'
 		}
 	});
 });

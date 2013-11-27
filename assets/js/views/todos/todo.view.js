@@ -17,10 +17,9 @@ define(function(require){
 		//tagName: 'li',
 		template: Mustache.compile(listItemTpl),
 		initialize: function(options){
-			console.log(this.model.url());
+			//console.log(this.model.url());
 			//listeners
 			this.listenTo(this.model, 'change', this.statusUpdate);
-
 			//options
 			this.catId = options.catId;
 			
@@ -55,7 +54,7 @@ define(function(require){
 		drop: function(event, index) {
 			this.$el.trigger('update-sort', [this.model, index]);
 		},
-		edit: function() {
+		makeEditForm: function() {
 			//console.log('label', this.model);
 			//var formView = new FormView({model: this.model, catId: this.catId});
 			
@@ -67,7 +66,6 @@ define(function(require){
 		deleteModel: function(e) {
 			e.preventDefault();
 			var that = this;
-			this.$el.trigger('test', this.model);
 			
 			if(this.model.attributes.category_id !== undefined) {
 				this.model.url = this.model.url() + "?category=" + this.model.attributes.category_id; 
@@ -75,7 +73,7 @@ define(function(require){
 			
 			this.model.destroy({
 				success: function(model, response, options) {
-					console.log(response);
+					//console.log(response);
 					that.remove();
 				},
 				error: function(model, xhr, options) {
@@ -85,18 +83,20 @@ define(function(require){
 			
 			
 		},
-		copyTodo: function(e) {
+		copyTodo: function(e, cat_id) {
 			e.preventDefault();
+			
+			console.log("copied mode with id: " + this.model.attributes.id + " to category with id: ", cat_id);
 			var todo = new Todo(this.model.attributes);
-			todo.url = todo.url() + "?category=4";
-			todo.save({ category_id : "4" });
+			todo.url = todo.url() + "?category=" + cat_id;
+			todo.save({ category_id : cat_id });
 		},
 		events: {
 			'click input[type=checkbox]' : 'toggleStatus',
 			'drop' : 'drop',
-			'click .form-btn' : 'edit',
+			'click .form-btn' : 'makeEditForm',
 			'click .delete-btn' : 'deleteModel',
-			'click .copy' : 'copyTodo'
+			'droppedInto' : 'copyTodo'
 		}
 	});
 

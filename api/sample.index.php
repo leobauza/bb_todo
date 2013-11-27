@@ -30,6 +30,7 @@ $app->get('/undos', function() use ($app, $poop) {
 });
 
 
+
 $app->run();
 
 
@@ -43,10 +44,7 @@ function test($app, $poop) {
 	endif;
 	
 	echo $poop . "\n";
-	
 }
-
-
 
 
 
@@ -183,21 +181,10 @@ function updateTodo($id) {
 				echo '{"error":{"text":'. $e->getMessage() .'}}';
 		}
 	else:
-		//$sql = "UPDATE relationship SET todo_order=:todo_order WHERE category_id=:category_id AND todo_id=:todo_id";
-		//$check = "SELECT todo_id FROM relationship WHERE category_id = :category_id";
-
-		$sql = "INSERT INTO relationship (category_id, todo_id, todo_order) VALUES (:category_id, :todo_id, :todo_order)";
-
+		$sql = "REPLACE INTO relationship (category_id, todo_id, todo_order) VALUES (:category_id, :todo_id, :todo_order)";
+		
 		try {
 				$db = getConnection();
-				
-				// $stmt = $db->prepare($check);
-				// $stmt->bindParam("category_id", $todo->category_id);
-				// $stmt->execute();
-
-				
-				
-				
 				$stmt = $db->prepare($sql);
 				$stmt->bindParam("todo_order", $todo->todo_order);
 				$stmt->bindParam("category_id", $todo->category_id);

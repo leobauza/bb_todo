@@ -30,6 +30,11 @@ define(function(require){
 			this.categories = new CategoriesCollection(bootstrap.categories);
 			this.categoriesView = new CategoriesView({ collection:this.categories });
 			this.categoriesView.render();
+		
+			//test
+			console.log(bootstrap.test.obj);
+		
+		
 		},
 		category: function(id) {
 			$('.form').empty(); //clear because you are going to a new collection

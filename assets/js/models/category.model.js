@@ -18,12 +18,10 @@ define(function(require){
 			'name' : 'category default'
 		},
 		initialize: function() {
-			//so I create a collection and a view...and then the getTodos function populates it.
+			//so I create a collection and a view...and then the getTodos method populates it.
 			this.todos = new TodosFiltered([], { category: this });
 			this.todosView = new TodosView({ collection: this.todos, catId: this.id });
-		
 			this.listenTo(this.todosView, 'test', function(model) { console.log("category listening: ", model) });
-		
 		},
 		getTodos: function() {
 			var that = this;

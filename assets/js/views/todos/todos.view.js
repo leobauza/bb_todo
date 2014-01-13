@@ -21,9 +21,11 @@ define(function(require){
 		className: 'todo-list',
 		template: Mustache.compile(ListTpl),
 		initialize: function(options){
+			
 			this.catId = options.catId; //category ID for this todos collection
 		},
 		render: function(){
+			
 			this.removeItemViews();
 			this.delegateEvents(); //attaches events again after page switching but NOT after adding a new one!
 
@@ -76,6 +78,7 @@ define(function(require){
 			}
 		},
 		renderFront: function() {
+			
 			this.removeItemViews();
 			this.undelegateEvents(); //attaches events again after page switching but NOT after adding a new one!
 			
@@ -91,6 +94,7 @@ define(function(require){
 			this.$el.append(todoView.el);
 		},
 		addOneFront: function(todo) {
+			
 			var todoView = new TodoView({model: todo, catId: this.catId});
 			todoView.listenTo(this, 'clean_up', todoView.remove); //have this todoView listen to clean_up!
 			todoView.render();

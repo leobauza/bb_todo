@@ -1,16 +1,18 @@
 // Filename: TodoApp.js
-define([
-	'jquery',
-	'jqueryM',
-	'jqueryUI',
-	'underscore',
-	'mustache',
-	'backbone',
-	'router', // Request router.js
-	//'app', //Request my coffee script thingy i am building
-], function($, migrate, ui, _, Mustache, Backbone, Router){
 
-	var initialize = function(){
+define(function(require){
+	var 
+			$ = require('jquery')
+		, migrate = require('jqueryM')
+		, ui = require('jqueryUI')
+		, _ = require('underscore')
+		, Mustache = require('mustache')
+		, Backbone = require('backbone')
+		, Router = require('router')
+	;
+
+	//var initialize = function(){
+	return function() {
 
 		$.fn.serializeObject = function() {
 			var o = {};
@@ -36,14 +38,25 @@ define([
 			return o;
 		};
 
-		console.log('at the app');
-		Router.initialize();
+		//Router.initialize();
+		var todoRouter = new Router(bootstrap);
 
+		Backbone.history.start({
+			pushState: true,
+			silent:true //pass silent true to not trigger the home route on load so you can bootstrap data?
+		});
+
+		$('body').on('click', 'a[href^="/"]' ,function(e){
+			e.preventDefault();
+			// console.log(e.target.pathname);
+			// console.log($(e.currentTarget).attr('href'))
+			todoRouter.navigate(e.target.pathname, true);
+		});
 	}
 
-	return {
-		initialize: initialize
-	};
+	// return {
+	// 	initialize: initialize
+	// };
 });
 
 

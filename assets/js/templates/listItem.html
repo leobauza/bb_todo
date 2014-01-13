@@ -1,7 +1,12 @@
 <li class="{{ status }}"> 
-	<input data-id="{{ id }}" type="checkbox" {{#checkbox}}checked{{/checkbox}}/>
-	<strong>id: {{ id }} | order: {{ordinal}}</strong>
-	<span>{{description}}</span>
-	<a class="btn btn-main" href="/todos/{{id}}">go to {{id}}</a>
-	<a class="btn btn-main" href="/form/{{id}}">form for {{id}}</a>
+	<input data-id="{{ id }}" type="checkbox" {{ #checkbox }}checked{{ /checkbox }}/>
+	<em>{{ status }}</em>
+	<strong>id: {{ id }} | order: {{ todo_order }}</strong>
+	<span>{{ description }}</span>
+	<div class="btn-group">
+		<!-- <a class="btn btn-grey" href="/todos/{{ id }}">go to {{ id }}</a> -->
+		<a class="btn btn-grey form-btn" href="/category/{{ category_id }}/edit/{{ id }}">form for {{id}}</a>
+		<a class="btn btn-main delete-btn" href="#">DELETE</a>
+		<a class="btn btn-secondary move-btn" href="#">it is sortable!</a>
+	</div>
 </li>

@@ -1,26 +1,28 @@
-// Filename: views/todos/form
-define([
-	'jquery',
-	'jqueryM',
-	'jqueryUI',
-	'underscore',
-	'mustache',
-	'backbone',
-	'text!templates/form.html'
-], function($, migrate, ui, _, Mustache, Backbone, formTpl){
-	var FormView = Backbone.View.extend({
+// Filename: views/todos/form.view
+
+define(function(require){
+	var
+			$ = require('jquery')
+		, migrate = require('jqueryM')
+		, ui = require('jqueryUI')
+		, _ = require('underscore')
+		, Mustache = require('mustache')
+		, Backbone = require('backbone')
+		,formTpl = require('text!templates/form.html')
+	;
+
+
+
+	return Backbone.View.extend({
 		template: Mustache.compile(formTpl),
 		initialize: function(){
-			console.log(this.options.stuff); //see router to see stuff being passed
+			//this.listenTo(this.model , 'change', this.render); needs to only update if not typing
+			this.listenTo(this.model , 'change:status', this.render);
 		},
-		render: function(){
-
-			//check if the body is empty and fill it up...
-
-			console.log(this.model.attributes);
-		
+		render: function(options){
 			this.setElement(this.template(this.model.attributes));
 			$('.form').html(this.el);
+			return this;
 		},
 		autoSaver: function(e){
 		
@@ -61,9 +63,13 @@ define([
 					//only log the details if the value has changed!
 					var todoDetails = $(e.currentTarget).closest('form').serializeObject();
 					that.model.save(todoDetails,{
-						silent:true, //make it silent so that the list doesn't update causing sort problems...(other solutions????)
-						success: function(){
-							console.log(todoDetails);
+						//silent:true, //make it silent so that the list doesn't update causing sort problems...(other solutions????)
+						success: function(model, response){
+							console.log("success: ", todoDetails);
+						},
+						error: function(model, response){
+							console.log("error: ", model);
+							console.log("error:", response);
 						}
 					});	
 
@@ -91,5 +97,4 @@ define([
 			'focus input[type="text"], textarea':'autoSaver'
 		}
 	});
-	return FormView;
 });
